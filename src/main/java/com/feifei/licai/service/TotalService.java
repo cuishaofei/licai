@@ -155,6 +155,7 @@ public class TotalService {
      */
     public List<ProportionVO> getProportion(){
         List<ProportionVO> list = new ArrayList<ProportionVO>();
+        //总额
         double totalCurrentMoney = getTotalCurrentMoney();
 
         //应投金额
@@ -169,10 +170,16 @@ public class TotalService {
         double zhaiquanReal = projectMapper.getCurrentMoneyByType(3);
         double huobiReal = projectMapper.getCurrentMoneyByType(4);
 
-        ProportionVO proportionVO1 = new ProportionVO("指数型",zhishu * 100 + "%","1",zhishuShould    ,zhishuReal,new BigDecimal(zhishuShould-zhishuReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(1));
-        ProportionVO proportionVO2 = new ProportionVO("P2P",p2p * 100 + "%","1",p2pShould,p2pReal,new BigDecimal(p2pShould-p2pReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(2));
-        ProportionVO proportionVO3 = new ProportionVO("债券型",zhaiquan * 100 + "%","1",zhaiquanShould,zhaiquanReal,new BigDecimal(zhaiquanShould-zhaiquanReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(3));
-        ProportionVO proportionVO4 = new ProportionVO("货币型",huobi * 100 + "%","1",huobiShould,huobiReal,new BigDecimal(huobiShould-huobiReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(4));
+        //实投金额占比
+        String zhishuRealPer = new BigDecimal(zhishuReal / totalCurrentMoney * 100).setScale(2, RoundingMode.UP).doubleValue()  + "%";
+        String p2pRealPer = new BigDecimal(p2pReal / totalCurrentMoney * 100).setScale(2, RoundingMode.UP).doubleValue()  + "%";
+        String zhaiquanRealPer = new BigDecimal(zhaiquanReal / totalCurrentMoney * 100).setScale(2, RoundingMode.UP).doubleValue()  + "%";
+        String huobiRealPer = new BigDecimal(huobiReal / totalCurrentMoney * 100).setScale(2, RoundingMode.UP).doubleValue()  + "%";
+
+        ProportionVO proportionVO1 = new ProportionVO("指数型",zhishu * 100 + "%",zhishuRealPer,new BigDecimal(zhishuShould).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(zhishuReal).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(zhishuShould-zhishuReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(1));
+        ProportionVO proportionVO2 = new ProportionVO("P2P",p2p * 100 + "%",p2pRealPer,new BigDecimal(p2pShould).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(p2pReal).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(p2pShould-p2pReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(2));
+        ProportionVO proportionVO3 = new ProportionVO("债券型",zhaiquan * 100 + "%",zhaiquanRealPer,new BigDecimal(zhaiquanShould).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(zhaiquanReal).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(zhaiquanShould-zhaiquanReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(3));
+        ProportionVO proportionVO4 = new ProportionVO("货币型",huobi * 100 + "%",huobiRealPer,new BigDecimal(huobiShould).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(huobiReal).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(huobiShould-huobiReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(4));
 
         list.add(proportionVO1);
         list.add(proportionVO2);
@@ -208,4 +215,5 @@ public class TotalService {
         }
         return  list;
     }
+
 }
