@@ -12,7 +12,7 @@ import java.util.List;
 public interface  ProjectMapper {
 
     //获取全部项目列表（包含每个项目的累计收益）
-    @Select("SELECT t1.*,t1.currentMoney + (SELECT SUM(t2.optionMoney) FROM lc_history t2 WHERE t2.pid = t1.id) allProfit FROM lc_project t1 ORDER BY t1.currentMoney DESC")
+    @Select("SELECT t1.*,t1.currentMoney + (SELECT SUM(t2.optionMoney) FROM lc_history t2 WHERE t2.pid = t1.id) allProfit FROM lc_project t1 ORDER BY allProfit DESC")
     List<Project> getProjectList();
 
     @Update("UPDATE lc_project t1 SET t1.currentMoney = t1.currentMoney + #{currentMoney},lastUpdateTime = #{lastUpdateTime} WHERE id = #{id}")
