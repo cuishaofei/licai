@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
+    <script type="text/javascript" src="jquery-easyui-1.7.0/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery-easyui-1.7.0/jquery.easyui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="jquery-easyui-1.7.0/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="jquery-easyui-1.7.0/themes/icon.css">
+
+    <script type="text/javascript">
+        $(function () {
+            $('#login').dialog({
+                title: "用户登录",
+                width: 350,
+                height: 200,
+                modal: true,
+                closable: false,
+                collapsible : true,
+                minimizable : true,
+                maximizable : true,
+                resizable : false,
+                buttons: [{
+                    text: "登录",
+                    iconCls: 'icon-ok',
+                    handler: function () {
+                        $("#loginForm").submit();
+                    }
+                }]
+            })
+        })
+    </script>
+    <style type="text/css">
+        .login_item{
+            margin:20px auto;
+        }
+        .login_item span{
+            display:inline-block;
+            width:100px;
+            text-align:right ;
+        }
+    </style>
+</head>
+<body>
+<br>
+<div easyui-dialog id="login">
+    <form id="loginForm" action="/user/login" method="post">
+        <div class="login_item">
+            <span>用户名：</span>
+            <input type="text" name="username" class="easyui-validatebox" data-options="required:true,missingMessage:'请填写登录名'" />
+        </div>
+        <div class="login_item">
+            <span>密码：</span>
+            <input type="password" name="password" class="easyui-validatebox" data-options="required:true,missingMessage:'请填写密码'" />
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

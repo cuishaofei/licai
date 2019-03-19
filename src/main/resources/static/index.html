@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>理财收益汇总表</title>
+	<link rel="stylesheet" type="text/css" href="jquery-easyui-1.7.0/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="jquery-easyui-1.7.0/themes/icon.css">
+	<script type="text/javascript" src="jquery-easyui-1.7.0/jquery.min.js"></script>
+	<script type="text/javascript" src="jquery-easyui-1.7.0/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="js/echarts.js"></script>
+	<script type="text/javascript">
+		$(function (){
+			//初始化表格数据
+			initTableData();
+			//初始化理财收益汇总表数据
+			initAllListTotalTableData();
+			//初理财资产分布表
+			initAllListProportion();
+            //理财投资策略对比表
+            initAllListStrategy();
+            //初始化各理财产品收益对比的图表
+			initContrastByCharts();
+        });
+
+		//初始化表格数据
+		function initTableData(){
+            $('#allList').datagrid({
+                method : "get",
+                url : "/project/getProjectList",
+                rowStyler : function(index,row){
+                    if (row.currentMoney == 0){
+                        return 'background-color:#6293BB;';
+                    }
+                }
+            });
+		}
+
+        //初始化理财收益汇总表数据
+		function  initAllListTotalTableData() {
+            $('#allListTotal').datagrid({
+                method : "get",
+                url : "/total/getTotal"
+            });
+        }
+
+        //初理财资产分布表
+        function  initAllListProportion() {
+            $('#allListProportion').datagrid({
+                method : "get",
+                url : "/total/getProportion"
+            });
+        }
+
+
+        //理财投资策略对比表
+        function  initAllListStrategy() {
+            $('#allListStrategy').datagrid({
+                method : "get",
+                url : "/total/getStrategy"
+            });
+        }
+		
+		//记一笔样式处理
+        function rowformater(value, row, index) {
+            return "<a href='javascript:void(0);' onclick='showDetail("+row.id+");'>查看</a> | <a href='javascript:void(0);' onclick='addHistory("+row.id+");'>记录</a>";
+        }
+		
+		//记一笔弹出详情页
+		function addHistory(rowID){
+		    //清空之前的数据
+            $("#optionMoney").textbox("setValue","");
+            $('#option').combobox('select',1);
+            $("#currentMoney").textbox("setValue","");
+            $('#optionDate').datebox({
+                optionDate:""
+            });
+			//在隐藏域给ID赋值
+            $("#addHistoryRowID").attr("value",rowID);
+			$('#addHistory').dialog('open');
+		}
+
+        //记一笔处理逻辑
+        function submitFunction() {
+		    var id = $("#addHistoryRowID").val();
+			var optionMoney = $("#optionMoney").val();
+            var option = $("#option").val();
+            var optionDate = $("#optionDate").val();
+            var currentMoney = $("#currentMoney").val();
+            //校验输入的金额是否正确
+			if(optionMoney == "" && currentMoney == ""){
+                $.messager.alert('提示消息','请输入操作金额或当前金额');
+                return;
+			}
+            if(optionMoney != "" && currentMoney != ""){
+                if(!checkNum(optionMoney)){
+                    $.messager.alert('提示消息','操作金额输入有误,只能输入小数');
+                    return;
+				}
+                if(!checkNum(currentMoney)){
+                    $.messager.alert('提示消息','当前金额输入有误,只能输入小数');
+                    return;
+                }
+            }
+            if(optionMoney != "" && currentMoney == ""){
+                if(!checkNum(optionMoney)){
+                    $.messager.alert('提示消息','操作金额输入有误,只能输入小数');
+                    return;
+                }
+            }
+            if(optionMoney == "" && currentMoney != ""){
+                if(!checkNum(currentMoney)){
+                    $.messager.alert('提示消息','当前金额输入有误,只能输入小数');
+                    return;
+                }
+            }
+
+            var param = {"id":id,"optionMoney":optionMoney,"option":option,"optionDate":optionDate,"currentMoney":currentMoney};
+            $.ajax({
+                url: "/history/addHistory",
+                type: "POST",
+                contentType:'application/json;charset=UTF-8',
+                data: JSON.stringify(param),
+                dataType: "JSON",
+                success : function (data) {
+					if(data == true){
+                        $('#addHistory').dialog('close');
+                        initTableData();
+                        $.messager.alert('提示消息','更新成功');
+					}else{
+                        $.messager.alert('提示消息','更新失败');
+					}
+                },
+                error : function (data){
+                }
+            });
+        }
+
+		//根据ID查看详情页面
+		function showDetail(rowID){
+			//根据rowID获取服务端数据
+			var param = {"id":rowID};
+            var detailRow = "";
+            $.ajax({
+                url: "/history/getHistoryByID",
+                type: "POST",
+                contentType:'application/json;charset=UTF-8',
+                data: JSON.stringify(param),
+                dataType: "JSON",
+                success : function (data) {
+                    $.each(data,function(idx,obj) {
+                        //测试数据
+                        detailRow = detailRow + "<tr><td>"+obj.option+"</td><td>"+obj.optionMoney+"</td><td>"+obj.createTime+"</td><td><a href='javascript:void(0);' onclick='deleteHistory("+obj.id+","+rowID+");'>删除</a></td></tr>";
+                    });
+                    //清空旧元素
+                    $("#showDetailTableBody").empty();
+                    $("#showDetailTableBody").append(detailRow);
+                    $('#showDetail').dialog('open');
+                },
+                error : function (data){
+                }
+            });
+		}
+
+		//根据ID删除详情页的记录
+		function deleteHistory(historyId,rowID){
+            $.messager.confirm('确认框','确定要删除吗？',function(r){
+                if (r){
+                    var historyIdJson = {"historyId":historyId};
+                    $.ajax({
+                        url: "/history/deleteHistoryByID",
+                        type: "POST",
+                        contentType:'application/json;charset=UTF-8',
+                        data: JSON.stringify(historyIdJson),
+                        dataType: "JSON",
+                        success : function (data) {
+                            if(data == true){
+                                $.messager.alert('提示消息','删除成功');
+                                //刷新数据
+								var detailRow = "";
+                                $.ajax({
+                                    url: "/history/getHistoryByID",
+                                    type: "POST",
+                                    contentType:'application/json;charset=UTF-8',
+                                    data: JSON.stringify({"id":rowID}),
+                                    dataType: "JSON",
+                                    success : function (data) {
+                                        $.each(data,function(idx,obj) {
+                                            //测试数据
+                                            detailRow = detailRow + "<tr><td>"+obj.option+"</td><td>"+obj.optionMoney+"</td><td>"+obj.createTime+"</td><td><a href='javascript:void(0);' onclick='deleteHistory("+obj.id+","+rowID+");'>删除</a></td></tr>";
+                                        });
+                                        //清空旧元素
+                                        $("#showDetailTableBody").empty();
+                                        $("#showDetailTableBody").append(detailRow);
+                                    },
+                                    error : function (data){
+                                    }
+                                });
+
+                            }else{
+                                $.messager.alert('提示消息','删除失败');
+                            }
+                        },
+                        error : function (data){
+                        }
+                    });
+                }
+            });
+		}
+
+        //初始化各理财产品收益对比的图表
+		function initContrastByCharts() {
+		    //从后台拿数据
+            $.ajax({
+                url: "/total/getContrast",
+                type: "POST",
+                contentType:'application/json;charset=UTF-8',
+                data: {},
+                dataType: "JSON",
+                success : function (data) {
+                    var lable = new Array();
+                    var lableData = new Array();
+                    $.each(data,function(idx,obj) {
+                        lable[idx] = obj.name;
+                        lableData[idx] = obj.value;
+                    });
+                    // 基于准备好的dom，初始化echarts实例
+                    var myChart = echarts.init(document.getElementById('main'));
+                    // 指定图表的配置项和数据
+                    var option = {
+                        title: {
+                            text: '收益对比'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data:['理财产品']
+                        },
+                        xAxis: {
+                            data: lable,
+                            axisLabel:{
+                                interval:0,
+                                rotate:40
+                            }
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: '理财产品',
+                            type: 'bar',
+                            data: lableData
+                        }] ,grid:{
+                            left:'10%',
+                            bottom:'35%'
+                        }
+                    };
+                    // 使用刚指定的配置项和数据显示图表。
+                    myChart.setOption(option);
+                }
+            });
+        }
+
+        //年月日时分秒
+        function clsFormatter(dateV){
+            var dateVal=new Date(Date.parse(dateV.toString()));
+            var y = dateVal.getFullYear();
+            var m = dateVal.getMonth()+1;
+            var d = dateVal.getDate();
+            var h=dateVal.getHours();
+            var m2=dateVal.getMinutes();
+            //var s=date.getSeconds();
+            var resultVal=y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d)+' '+(h<10?('0'+h):h)+':'+(m2<10?('0'+m2):m2+':00');
+            return resultVal;
+        }
+
+        function clsParser(s){
+            if (!s) return new Date();
+            var s1=s.split(' ');
+            var sa=s1[0];
+            var sb=s1[1];
+            var ss = (sa.split('-'));
+            var y = parseInt(ss[0],10);
+            var m = parseInt(ss[1],10);
+            var d = parseInt(ss[2],10);
+            var tt = (sb.split(':'));
+            var h = parseInt(tt[0]);
+            var mi = parseInt(tt[1]);
+
+            if (!isNaN(y) && !isNaN(m) && !isNaN(d)&& !isNaN(h)&& !isNaN(mi)){
+                return new Date(y,m-1,d,h,mi);
+            } else {
+                return new Date();
+            }
+        }
+
+        //只能输入小数正则校验
+        function checkNum(data) {
+            var reg = new RegExp("^[0-9]+([.]{1}[0-9]+){0,1}$");
+            if (data != "") {
+                if (!reg.test(data)) {
+                    return false;
+                }
+                return true;
+            }
+        }
+
+	</script>
+</head>
+<body>
+	<h2>理财项目明细表</h2>
+	
+	<!--列表区-->
+	<div>
+		<table id="allList" class="easyui-datagrid" title="理财项目明细表" rownumbers="true" data-options="fitColumns:true">
+		<thead>
+			<tr>
+				<th data-options="field:'name',width:3,halign:'center',align:'center'">投资平台</th>
+				<th data-options="field:'code',width:1,halign:'center',align:'center'">投资编码</th>
+				<th data-options="field:'currentMoney',width:1,halign:'center',align:'center'">当前金额</th>
+				<th data-options="field:'allProfit',width:1,halign:'center',align:'center'">累计收益</th>
+				<th data-options="field:'yearRate',width:1,halign:'center',align:'center'">年化收益率</th>
+				<th data-options="field:'type',width:1,halign:'center',align:'center'">类型</th>
+				<th data-options="field:'appName',width:1,halign:'center',align:'center'">APP名称</th>
+				<th data-options="field:'riskLevel',width:1,halign:'center',align:'center'">风险等级</th>
+				<th data-options="field:'mark',width:1,halign:'center',align:'center'">备注</th>
+				<th data-options="field:'lastUpdateTime',width:3,halign:'center',align:'center'">最后更新时间</th>
+				<th data-options="field:'option',width:1,formatter: rowformater,halign:'center',align:'center'">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+		</tbody>
+	</table>
+	</div>
+	
+	<h2>理财收益汇总表</h2>
+	<!--列表区-->
+	<div>
+		<table id="allListTotal" class="easyui-datagrid" title="理财收益汇总表"  rownumbers="true" data-options="fitColumns:true">
+			<thead>
+			<tr>
+				<th data-options="field:'totalCurrentMoney',halign:'center',align:'center',width:1">累计总额</th>
+				<th data-options="field:'totalProfit',halign:'center',align:'center',width:1">累计收益</th>
+				<th data-options="field:'totalYearRate',halign:'center',align:'center',width:1">累计年化收益率</th>
+			</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
+
+	<h2>理财资产分布表</h2>
+	<div>
+		<table id="allListProportion" class="easyui-datagrid" title="理财资产分布表"  rownumbers="true" data-options="fitColumns:true">
+			<thead>
+			<tr>
+				<th data-options="field:'type',halign:'center',align:'center',width:1">类型</th>
+				<th data-options="field:'shouldProportion',halign:'center',align:'center',width:1">应投金额占比</th>
+				<th data-options="field:'realProportion',halign:'center',align:'center',width:1">实投金额占比</th>
+				<th data-options="field:'shouldMoney',halign:'center',align:'center',width:1">应投金额</th>
+				<th data-options="field:'realMoney',halign:'center',align:'center',width:1">实投金额</th>
+				<th data-options="field:'shouldBuyMoney',halign:'center',align:'center',width:1">应买入金额</th>
+				<th data-options="field:'yearRate',halign:'center',align:'center',width:1">年化收益率</th>
+			</tr>
+			</thead>
+			<tbody>
+
+
+			</tbody>
+		</table>
+	</div>
+		
+	<h2>理财投资策略对比表</h2>
+	<!--列表区-->
+	<div>
+		<table id="allListStrategy" class="easyui-datagrid" title="理财投资策略对比表"  rownumbers="true" data-options="fitColumns:true">
+			<thead>
+			<tr>
+				<th data-options="field:'jq',halign:'center',align:'center',width:1">简七</th>
+				<th data-options="field:'yhlsd',halign:'center',align:'center',width:1">银行螺丝钉</th>
+				<th data-options="field:'feifei',halign:'center',align:'center',width:1">飞哥自选</th>
+			</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
+	</div>
+	
+	<!--详情页面区域-->
+	<div id="showDetail" class="easyui-dialog" title="详情" style="width:800px;height:400px;padding:10px" closed="true">
+	   <table id="showDetailTable" border="1" cellspacing="0" style="width:100%;">
+            <thead>
+			<tr style="background-color: #6293BB;">
+				<td>操作</td>
+				<td>操作金额</td>
+				<td>日期</td>
+				<td>操作</td>
+			<tr>
+			</thead>
+			<tbody id="showDetailTableBody">
+			
+			</tbody>
+       </table>
+	</div>
+	
+	<!--记账页面区域-->
+	<div id="addHistory" class="easyui-dialog" title="记录" style="width:700px;height:150px;padding:10px" closed="true">
+			<div>
+				<label>操作金额:</label>
+				<input class="easyui-textbox" type="text" id="optionMoney" />
+				<select class="easyui-combobox" name="state" style="width:200px;" id="option">
+					<option value="1">投资</option>
+					<option value="2">提现</option>
+				</select>
+				<label>日期</label>
+				<input id="optionDate" data-options="formatter:clsFormatter,parser:clsParser" class="easyui-datetimebox" >
+			</div>
+			<div>
+				<label>当前金额:</label>
+				<input class="easyui-textbox" type="text" id="currentMoney"/>
+			</div>
+			<div>
+				<input type="hidden" id="addHistoryRowID"/>
+			</div>
+			<div>
+				<input type="button" value="保存" onclick="submitFunction()"/>
+			</div>
+	</div>
+
+	<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+	<div id="main" style="width: 100%;height:500px;margin-top:50px"></div>
+
+</body>
+</html>
