@@ -1,7 +1,7 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 阿里云理财数据库
+Source Server         : 测试数据库
 Source Server Version : 50518
 Source Host           : rdsyfmnyqyfmnyq.mysql.rds.aliyuncs.com:3306
 Source Database       : lc
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50518
 File Encoding         : 65001
 
-Date: 2019-03-19 11:21:39
+Date: 2019-03-22 00:48:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,7 +28,7 @@ CREATE TABLE `lc_history` (
   PRIMARY KEY (`id`),
   KEY `r_pid` (`pid`),
   CONSTRAINT `r_pid` FOREIGN KEY (`pid`) REFERENCES `lc_project` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Table structure for lc_project
@@ -42,8 +42,20 @@ CREATE TABLE `lc_project` (
   `appname` varchar(50) DEFAULT NULL COMMENT 'app名称',
   `riskLevel` int(1) DEFAULT NULL COMMENT '1:高、2:中、3:低',
   `mark` varchar(50) DEFAULT NULL COMMENT '备注',
-  `currentMoney` double(10,2) DEFAULT NULL COMMENT '当前金额',
-  `lastUpdateTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `p_name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
+
+-- ----------------------------
+-- Table structure for lc_project_currentmoney
+-- ----------------------------
+DROP TABLE IF EXISTS `lc_project_currentmoney`;
+CREATE TABLE `lc_project_currentmoney` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `currentMoney` double(10,2) DEFAULT NULL COMMENT '当前金额',
+  `lastUpdateTime` datetime DEFAULT NULL COMMENT '最后更新时间',
+  `pid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `p_id` (`pid`),
+  CONSTRAINT `p_id` FOREIGN KEY (`pid`) REFERENCES `lc_project` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8mb4;

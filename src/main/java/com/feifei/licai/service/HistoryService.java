@@ -87,16 +87,18 @@ public class HistoryService {
             }
             history.setPid(id);
             historyMapper.addHistory(history);
+            //获取当前金额
+            double currentMoney = projectMapper.getCurrentMoneyByPid(id);
             //更新统计表
             Project project = new Project();
             project.setId(id);
             if(option == 1){
-                project.setCurrentMoney(optionMoney);
+                project.setCurrentMoney(currentMoney + optionMoney);
             }else {
-                project.setCurrentMoney(-optionMoney);
+                project.setCurrentMoney(currentMoney - optionMoney);
             }
             project.setLastUpdateTime(new Date());
-            projectMapper.IncreaseCurrentMoneyByID(project);
+            projectMapper.addCurrentMoney(project);
             flag = true;
             return  flag;
         }
@@ -108,7 +110,7 @@ public class HistoryService {
             project.setId(id);
             project.setCurrentMoney(currentMoney);
             project.setLastUpdateTime(new Date());
-            projectMapper.updateCurrentMoneyByID(project);
+            projectMapper.addCurrentMoney(project);
             flag = true;
             return  flag;
         }
@@ -139,7 +141,7 @@ public class HistoryService {
             project.setId(id);
             project.setCurrentMoney(currentMoney);
             project.setLastUpdateTime(new Date());
-            projectMapper.updateCurrentMoneyByID(project);
+            projectMapper.addCurrentMoney(project);
             flag = true;
             return  flag;
         }

@@ -28,10 +28,10 @@ public class Project {
     private int riskLevel;
     //备注
     private String mark;
+    //累计收益
+    private double allProfit;
     //当前金额
     private double currentMoney;
     //最后更新时间
     private Date lastUpdateTime;
-    //累计收益
-    private double allProfit;
 }
