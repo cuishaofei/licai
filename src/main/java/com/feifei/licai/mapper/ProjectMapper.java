@@ -12,7 +12,7 @@ import java.util.List;
 public interface  ProjectMapper {
 
     //获取全部项目列表（包含每个项目的累计收益）
-    @Select("SELECT t1.*,(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) FROM lc_project_currentmoney WHERE pid = t1.id)) + (SELECT SUM(t2.optionMoney) FROM lc_history t2 WHERE t2.pid = t1.id) allProfit FROM lc_project t1 ORDER BY allProfit DESC;")
+    @Select("SELECT t1.*,(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney WHERE pid = t1.id)) currentMoney,(SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney WHERE pid = t1.id) lastUpdateTime,(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) FROM lc_project_currentmoney WHERE pid = t1.id)) + (SELECT SUM(t2.optionMoney) FROM lc_history t2 WHERE t2.pid = t1.id) allProfit FROM lc_project t1 ORDER BY allProfit DESC")
     List<Project> getProjectList();
 
     @Insert("INSERT INTO lc_project_currentmoney(currentMoney,lastUpdateTime,pid) VALUES(#{currentMoney},#{lastUpdateTime},#{id})")
@@ -22,7 +22,7 @@ public interface  ProjectMapper {
     double getCurrentMoneyByType(int type);
 
     //获取全部项目列表（包含每个项目的累计收益）
-    @Select("SELECT t1.*,(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) FROM lc_project_currentmoney WHERE pid = t1.id)) + (SELECT SUM(t2.optionMoney) FROM lc_history t2 WHERE t2.pid = t1.id) allProfit FROM lc_project t1 WHERE t1.type = #{type} ORDER BY allProfit DESC")
+    @Select("SELECT t1.*,(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney WHERE pid = t1.id)) currentMoney,(SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney WHERE pid = t1.id) lastUpdateTime,(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) FROM lc_project_currentmoney WHERE pid = t1.id)) + (SELECT SUM(t2.optionMoney) FROM lc_history t2 WHERE t2.pid = t1.id) allProfit FROM lc_project t1 WHERE t1.type = #{type} ORDER BY allProfit DESC")
     List<Project> getProjectListByType(int type);
 
     //获取全部项目列表（包含每个项目的累计收益）
