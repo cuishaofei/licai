@@ -8,6 +8,7 @@ import com.feifei.licai.util.DateTimeUtil;
 import com.feifei.licai.util.xirr.Transaction;
 import com.feifei.licai.util.xirr.Xirr;
 import com.feifei.licai.vo.Contrast;
+import com.feifei.licai.vo.HistoryVO;
 import com.feifei.licai.vo.ProjectVO;
 import com.feifei.licai.vo.ProportionVO;
 import org.apache.commons.logging.Log;
@@ -78,12 +79,12 @@ public class TotalService {
      */
     public String getTotalYearRate(){
         String yearRate = "";
-        List<History> histories = historyMapper.getHistoryList();
+        List<HistoryVO> histories = historyMapper.getHistoryList();
         List<ProjectVO> projects = projectMapper.getProjectList();
         List<Transaction> transactions = new ArrayList<Transaction>();
         for(int i = 0;i<histories.size();i++){
-            History history = histories.get(i);
-            Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatDateTimetoString(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
+            HistoryVO history = histories.get(i);
+            Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatStringtoDateTime(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
             transactions.add(transaction);
         }
         for(int i = 0;i<projects.size();i++){
@@ -102,12 +103,12 @@ public class TotalService {
      */
     public String getTotalYearRate(int type){
         String yearRate = "";
-        List<History> histories = historyMapper.getHistoryListByType(type);
+        List<HistoryVO> histories = historyMapper.getHistoryListByType(type);
         List<ProjectVO> projects = projectMapper.getProjectListByType(type);
         List<Transaction> transactions = new ArrayList<Transaction>();
         for(int i = 0;i<histories.size();i++){
-            History history = histories.get(i);
-            Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatDateTimetoString(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
+            HistoryVO history = histories.get(i);
+            Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatStringtoDateTime(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
             transactions.add(transaction);
         }
         for(int i = 0;i<projects.size();i++){
@@ -126,12 +127,12 @@ public class TotalService {
      */
     public String getTotalYearRate(List<String> ids){
         String yearRate = "";
-        List<History> histories = historyMapper.getHistoryListByIds(ids);
+        List<HistoryVO> histories = historyMapper.getHistoryListByIds(ids);
         List<ProjectVO> projects = projectMapper.getProjectListByIds(ids);
         List<Transaction> transactions = new ArrayList<Transaction>();
         for(int i = 0;i<histories.size();i++){
-            History history = histories.get(i);
-            Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatDateTimetoString(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
+            HistoryVO history = histories.get(i);
+            Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatStringtoDateTime(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
             transactions.add(transaction);
         }
         for(int i = 0;i<projects.size();i++){

@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 /**
  * Created by cuishaofei on 2019/3/16.
  */
@@ -21,5 +19,7 @@ public class HistoryVO {
     private double optionMoney;
     //操作时间
     private String createTime;
+    //pid
+    private int pid;
 
 }

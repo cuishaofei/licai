@@ -37,12 +37,12 @@ public class HistoryService {
      */
     public List<HistoryVO> getHistoryByID(int pid){
         List<HistoryVO> historyVOList = new ArrayList<HistoryVO>();
-        List<History> histories = historyMapper.getHistoryByID(pid);
+        List<HistoryVO> histories = historyMapper.getHistoryByID(pid);
         if(histories != null && histories.size() > 0){
            for (int i = 0;i<histories.size();i++){
-               History history = histories.get(i);
-               String createTime = DateTimeUtil.formatDateTimetoString(history.getCreateTime());
-               HistoryVO historyVO = new HistoryVO(history.getId(),OptionType.getDescByValue(history.getOption()),Math.abs(history.getOptionMoney()),createTime);
+               HistoryVO history = histories.get(i);
+               String createTime = history.getCreateTime();
+               HistoryVO historyVO = new HistoryVO(history.getId(),OptionType.getDescByValue(Integer.parseInt(history.getOption())),Math.abs(history.getOptionMoney()),createTime,history.getPid());
                historyVOList.add(historyVO);
            }
         }

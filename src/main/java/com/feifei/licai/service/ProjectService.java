@@ -8,6 +8,7 @@ import com.feifei.licai.util.LicaiType;
 import com.feifei.licai.util.RiskType;
 import com.feifei.licai.util.xirr.Transaction;
 import com.feifei.licai.util.xirr.Xirr;
+import com.feifei.licai.vo.HistoryVO;
 import com.feifei.licai.vo.ProjectVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,7 +42,7 @@ public class ProjectService{
      */
     public List<ProjectVO> getProjectList() {
         List<ProjectVO> list = projectMapper.getProjectList();
-        List<History> allHistory = historyMapper.getHistoryList();
+        List<HistoryVO> allHistory = historyMapper.getHistoryList();
         List<ProjectVO> projectVOArrayList = new ArrayList<ProjectVO>();
         if(list != null && list.size() > 0){
            for(int i = 0;i<list.size();i++){
@@ -51,11 +52,11 @@ public class ProjectService{
                //获取当前ID
                int pid = project.getId();
                //计算年化收益率用明年的第一天
-               List<History> histories = null;
+               List<HistoryVO> histories = null;
                if(allHistory != null && allHistory.size() > 0){
-                   histories = new ArrayList<History>();
+                   histories = new ArrayList<HistoryVO>();
                    for(int j = 0;j<allHistory.size();j++){
-                       History history = allHistory.get(j);
+                       HistoryVO history = allHistory.get(j);
                        if(history.getPid() == project.getId()){
                            histories.add(history);
                        }
@@ -78,14 +79,14 @@ public class ProjectService{
      * @param currentMoney
      * @return
      */
-    private String getYearRateByHistorys(List<History> histories,double currentMoney) {
+    private String getYearRateByHistorys(List<HistoryVO> histories,double currentMoney) {
         String yearRate = "";
         try {
             if(histories != null && histories.size() > 0){
                 List<Transaction> transactions = new ArrayList<Transaction>();
                 for(int i = 0;i < histories.size();i++){
-                    History history = histories.get(i);
-                    Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatDateTimetoString(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
+                    HistoryVO history = histories.get(i);
+                    Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatStringtoDateTime(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
                     transactions.add(transaction);
                 }
                 //添加最后一笔明细

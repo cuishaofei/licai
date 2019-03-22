@@ -1,6 +1,7 @@
 package com.feifei.licai.mapper;
 
 import com.feifei.licai.model.History;
+import com.feifei.licai.vo.HistoryVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
@@ -19,7 +20,7 @@ public interface  HistoryMapper {
      * @return
      */
     @Select("SELECT t1.* FROM lc_history t1 WHERE t1.pid = #{pid} ORDER BY t1.createTime DESC")
-    List<History> getHistoryByID(int pid);
+    List<HistoryVO> getHistoryByID(int pid);
 
     /**
      * 根据ID获取历史明细
@@ -42,14 +43,14 @@ public interface  HistoryMapper {
      * @return
      */
     @Select("SELECT t1.* FROM lc_history t1 ORDER BY t1.createTime")
-    List<History> getHistoryList();
+    List<HistoryVO> getHistoryList();
 
     /**
      * 获取全部明细
      * @return
      */
     @Select("SELECT t1.* FROM lc_history t1,lc_project t2 WHERE t1.pid = t2.id AND t2.type = #{type} ORDER BY t1.createTime")
-    List<History> getHistoryListByType(int type);
+    List<HistoryVO> getHistoryListByType(int type);
 
     /**
      * 获取全部明细
@@ -66,6 +67,6 @@ public interface  HistoryMapper {
             "</foreach>",
             "</script>"
     })
-    List<History> getHistoryListByIds(@Param("ids") List<String> ids);
+    List<HistoryVO> getHistoryListByIds(@Param("ids") List<String> ids);
 
 }
