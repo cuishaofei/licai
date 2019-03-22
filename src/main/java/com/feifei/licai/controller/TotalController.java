@@ -1,24 +1,18 @@
 package com.feifei.licai.controller;
 
-import com.feifei.licai.mapper.TotalMapper;
 import com.feifei.licai.service.ProjectService;
 import com.feifei.licai.service.TotalService;
 import com.feifei.licai.vo.Contrast;
 import com.feifei.licai.vo.DataGridResult;
-import com.feifei.licai.vo.ProportionVO;
 import com.feifei.licai.vo.TotalVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

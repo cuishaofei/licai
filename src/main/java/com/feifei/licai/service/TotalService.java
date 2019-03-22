@@ -4,10 +4,7 @@ import com.feifei.licai.mapper.HistoryMapper;
 import com.feifei.licai.mapper.ProjectMapper;
 import com.feifei.licai.mapper.TotalMapper;
 import com.feifei.licai.model.History;
-import com.feifei.licai.model.Project;
 import com.feifei.licai.util.DateTimeUtil;
-import com.feifei.licai.util.LicaiType;
-import com.feifei.licai.util.RiskType;
 import com.feifei.licai.util.xirr.Transaction;
 import com.feifei.licai.util.xirr.Xirr;
 import com.feifei.licai.vo.Contrast;
@@ -15,8 +12,6 @@ import com.feifei.licai.vo.ProjectVO;
 import com.feifei.licai.vo.ProportionVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.ognl.IntHashMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -84,7 +79,7 @@ public class TotalService {
     public String getTotalYearRate(){
         String yearRate = "";
         List<History> histories = historyMapper.getHistoryList();
-        List<Project> projects = projectMapper.getProjectList();
+        List<ProjectVO> projects = projectMapper.getProjectList();
         List<Transaction> transactions = new ArrayList<Transaction>();
         for(int i = 0;i<histories.size();i++){
             History history = histories.get(i);
@@ -92,7 +87,7 @@ public class TotalService {
             transactions.add(transaction);
         }
         for(int i = 0;i<projects.size();i++){
-            Project project = projects.get(i);
+            ProjectVO project = projects.get(i);
             transactions.add(new Transaction(project.getCurrentMoney(),DateTimeUtil.formatDateTimetoString(new Date(),DateTimeUtil.FMT_yyyyMMdd)));
         }
         double xirr = new Xirr(transactions).xirr();
@@ -108,7 +103,7 @@ public class TotalService {
     public String getTotalYearRate(int type){
         String yearRate = "";
         List<History> histories = historyMapper.getHistoryListByType(type);
-        List<Project> projects = projectMapper.getProjectListByType(type);
+        List<ProjectVO> projects = projectMapper.getProjectListByType(type);
         List<Transaction> transactions = new ArrayList<Transaction>();
         for(int i = 0;i<histories.size();i++){
             History history = histories.get(i);
@@ -116,7 +111,7 @@ public class TotalService {
             transactions.add(transaction);
         }
         for(int i = 0;i<projects.size();i++){
-            Project project = projects.get(i);
+            ProjectVO project = projects.get(i);
             transactions.add(new Transaction(project.getCurrentMoney(),DateTimeUtil.formatDateTimetoString(new Date(),DateTimeUtil.FMT_yyyyMMdd)));
         }
         double xirr = new Xirr(transactions).xirr();
@@ -132,7 +127,7 @@ public class TotalService {
     public String getTotalYearRate(List<String> ids){
         String yearRate = "";
         List<History> histories = historyMapper.getHistoryListByIds(ids);
-        List<Project> projects = projectMapper.getProjectListByIds(ids);
+        List<ProjectVO> projects = projectMapper.getProjectListByIds(ids);
         List<Transaction> transactions = new ArrayList<Transaction>();
         for(int i = 0;i<histories.size();i++){
             History history = histories.get(i);
@@ -140,7 +135,7 @@ public class TotalService {
             transactions.add(transaction);
         }
         for(int i = 0;i<projects.size();i++){
-            Project project = projects.get(i);
+            ProjectVO project = projects.get(i);
             transactions.add(new Transaction(project.getCurrentMoney(),DateTimeUtil.formatDateTimetoString(new Date(),DateTimeUtil.FMT_yyyyMMdd)));
         }
         double xirr = new Xirr(transactions).xirr();
@@ -208,8 +203,8 @@ public class TotalService {
      */
     public List<Contrast>  getContrast() {
         List<Contrast> list = new ArrayList<Contrast>();
-        List<Project> projectList = projectMapper.getProjectList();
-        for(Project project : projectList){
+        List<ProjectVO> projectList = projectMapper.getProjectList();
+        for(ProjectVO project : projectList){
             Contrast contrast = new Contrast(project.getName(),project.getAllProfit());
             list.add(contrast);
         }

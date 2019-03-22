@@ -19,7 +19,7 @@ public interface  ProjectMapper {
             "(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) FROM lc_project_currentmoney WHERE pid = t1.id)) " +
             "+ (SELECT SUM(t2.optionMoney) FROM lc_history t2 WHERE t2.pid = t1.id) allProfit " +
             "FROM lc_project t1 ORDER BY allProfit DESC")
-    List<Project> getProjectList();
+    List<ProjectVO> getProjectList();
 
     @Insert("INSERT INTO lc_project_currentmoney(currentMoney,lastUpdateTime,pid) VALUES(#{currentMoney},#{lastUpdateTime},#{id})")
     void addCurrentMoney(Project project);
@@ -36,7 +36,7 @@ public interface  ProjectMapper {
             "(SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney WHERE pid = t1.id) lastUpdateTime," +
             "(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) FROM lc_project_currentmoney WHERE pid = t1.id)) " +
             "+ (SELECT SUM(t2.optionMoney) FROM lc_history t2 WHERE t2.pid = t1.id) allProfit FROM lc_project t1 WHERE t1.type = #{type} ORDER BY allProfit DESC")
-    List<Project> getProjectListByType(int type);
+    List<ProjectVO> getProjectListByType(int type);
 
     //获取全部项目列表（包含每个项目的累计收益）
     @Select({
@@ -50,7 +50,7 @@ public interface  ProjectMapper {
             "</foreach>",
             "</script>"
     })
-    List<Project> getProjectListByIds(@Param("ids") List<String> ids);
+    List<ProjectVO> getProjectListByIds(@Param("ids") List<String> ids);
 
     @Select("SELECT currentMoney FROM lc_project_currentmoney WHERE pid = #{id} AND lastUpdateTime = (SELECT MAX(lastUpdateTime) FROM lc_project_currentmoney WHERE pid = #{id})")
     double getCurrentMoneyByPid(int pid);

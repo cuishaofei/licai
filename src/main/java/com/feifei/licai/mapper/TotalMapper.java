@@ -1,11 +1,6 @@
 package com.feifei.licai.mapper;
 
-import com.feifei.licai.model.Project;
-import com.feifei.licai.vo.ProjectVO;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
-import java.util.List;
 
 /**
  * Created by cuishaofei on 2019/3/16.

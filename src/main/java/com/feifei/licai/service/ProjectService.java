@@ -1,10 +1,8 @@
 package com.feifei.licai.service;
 
-import com.feifei.licai.controller.HistoryController;
 import com.feifei.licai.mapper.HistoryMapper;
 import com.feifei.licai.mapper.ProjectMapper;
 import com.feifei.licai.model.History;
-import com.feifei.licai.model.Project;
 import com.feifei.licai.util.DateTimeUtil;
 import com.feifei.licai.util.LicaiType;
 import com.feifei.licai.util.RiskType;
@@ -42,12 +40,12 @@ public class ProjectService{
      * @return
      */
     public List<ProjectVO> getProjectList() {
-        List<Project> list = projectMapper.getProjectList();
+        List<ProjectVO> list = projectMapper.getProjectList();
         List<History> allHistory = historyMapper.getHistoryList();
         List<ProjectVO> projectVOArrayList = new ArrayList<ProjectVO>();
         if(list != null && list.size() > 0){
            for(int i = 0;i<list.size();i++){
-               Project project = list.get(i);
+               ProjectVO project = list.get(i);
                //获取当前金额
                double currentMoney = project.getCurrentMoney();
                //获取当前ID
@@ -65,9 +63,9 @@ public class ProjectService{
                }
                String yearRate = getYearRateByHistorys(histories,currentMoney);
                ProjectVO total = new ProjectVO(pid,project.getName(),project.getCode(),currentMoney,
-                       project.getAllProfit(),yearRate, LicaiType.getDescByValue(project.getType()),
-                       project.getAppName(), RiskType.getDescByValue(project.getRiskLevel()),
-                       project.getMark(), DateTimeUtil.formatDateTimetoString(project.getLastUpdateTime()));
+                       project.getAllProfit(),yearRate, LicaiType.getDescByValue(Integer.parseInt(project.getType())),
+                       project.getAppName(), RiskType.getDescByValue(Integer.parseInt(project.getRiskLevel())),
+                       project.getMark(), project.getLastUpdateTime());
                projectVOArrayList.add(total);
            }
         }

@@ -1,7 +1,6 @@
 package com.feifei.licai.mapper;
 
 import com.feifei.licai.model.History;
-import com.feifei.licai.model.Project;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;

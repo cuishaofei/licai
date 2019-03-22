@@ -1,20 +1,16 @@
 package com.feifei.licai.controller;
 
-import com.feifei.licai.mapper.HistoryMapper;
-import com.feifei.licai.model.History;
 import com.feifei.licai.service.HistoryService;
 import com.feifei.licai.vo.HistoryVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * Created by cuishaofei on 2019/3/16.

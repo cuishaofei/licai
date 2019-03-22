@@ -7,8 +7,6 @@ import com.feifei.licai.model.Project;
 import com.feifei.licai.util.DateTimeUtil;
 import com.feifei.licai.util.OptionType;
 import com.feifei.licai.vo.HistoryVO;
-import com.feifei.licai.vo.ProjectVO;
-import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

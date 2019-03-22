@@ -1,6 +1,5 @@
 package com.feifei.licai.util;
 
-import com.feifei.licai.controller.HistoryController;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
