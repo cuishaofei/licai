@@ -12,47 +12,156 @@ import java.util.List;
 public interface  ProjectMapper {
 
     //获取全部项目列表（包含每个项目的累计收益）
-    @Select("SELECT t1.*," +
-            "(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney " +
-            "WHERE pid = t1.id)) currentMoney," +
-            "(SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney WHERE pid = t1.id) lastUpdateTime," +
-            "(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) FROM lc_project_currentmoney WHERE pid = t1.id)) " +
-            "+ (SELECT SUM(t2.optionMoney) FROM lc_history t2 WHERE t2.pid = t1.id) allProfit " +
-            "FROM lc_project t1 ORDER BY allProfit DESC")
+    @Select("SELECT " +
+            "    t2.*, t3.currentMoney, " +
+            "    t3.lastUpdateTime, " +
+            "    t3.currentMoney + ( " +
+            "        SELECT " +
+            "            SUM(t4.optionMoney) " +
+            "        FROM " +
+            "            lc_history t4 " +
+            "        WHERE " +
+            "            t4.pid = t2.id " +
+            "    ) allProfit " +
+            "FROM " +
+            "    lc_project t2, " +
+            "    ( " +
+            "        SELECT " +
+            "            t1.* " +
+            "        FROM " +
+            "            ( " +
+            "                SELECT " +
+            "                    * " +
+            "                FROM " +
+            "                    lc_project_currentmoney " +
+            "                ORDER BY " +
+            "                    id DESC " +
+            "            ) t1 " +
+            "        GROUP BY " +
+            "            t1.pid " +
+            "    ) t3 " +
+            "WHERE " +
+            "    t2.id = t3.pid " +
+            "ORDER BY " +
+            "    allProfit DESC")
     List<ProjectVO> getProjectList();
 
-    @Insert("INSERT INTO lc_project_currentmoney(currentMoney,lastUpdateTime,pid) VALUES(#{currentMoney},#{lastUpdateTime},#{id})")
-    void addCurrentMoney(Project project);
-
-    @Select("SELECT SUM(t4.currentMoney) currentMoney FROM " +
-            "(SELECT (SELECT currentMoney FROM lc_project_currentmoney t3 WHERE t3.pid = t1.id AND t3.lastUpdateTime " +
-            "= (SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney t2 WHERE t2.pid = t1.id)) currentMoney " +
-            "FROM lc_project t1 WHERE t1.type = #{type}) t4")
+    @Select("SELECT " +
+            "    SUM(t3.currentMoney) " +
+            "FROM " +
+            "    lc_project t2, " +
+            "    ( " +
+            "        SELECT " +
+            "            t1.* " +
+            "        FROM " +
+            "            ( " +
+            "                SELECT " +
+            "                    * " +
+            "                FROM " +
+            "                    lc_project_currentmoney " +
+            "                ORDER BY " +
+            "                    id DESC " +
+            "            ) t1 " +
+            "        GROUP BY " +
+            "            t1.pid " +
+            "    ) t3 " +
+            "WHERE " +
+            "    t2.id = t3.pid " +
+            "AND t2.type = #{type}")
     double getCurrentMoneyByType(int type);
 
     //获取全部项目列表（包含每个项目的累计收益）
-    @Select("SELECT t1.*," +
-            "(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney WHERE pid = t1.id)) currentMoney," +
-            "(SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney WHERE pid = t1.id) lastUpdateTime," +
-            "(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) FROM lc_project_currentmoney WHERE pid = t1.id)) " +
-            "+ (SELECT SUM(t2.optionMoney) FROM lc_history t2 WHERE t2.pid = t1.id) allProfit FROM lc_project t1 WHERE t1.type = #{type} ORDER BY allProfit DESC")
+    @Select("SELECT " +
+            "    t2.*, t3.currentMoney, " +
+            "    t3.lastUpdateTime, " +
+            "    t3.currentMoney + ( " +
+            "        SELECT " +
+            "            SUM(t4.optionMoney) " +
+            "        FROM " +
+            "            lc_history t4 " +
+            "        WHERE " +
+            "            t4.pid = t2.id " +
+            "    ) allProfit " +
+            "FROM " +
+            "    lc_project t2, " +
+            "    ( " +
+            "        SELECT " +
+            "            t1.* " +
+            "        FROM " +
+            "            ( " +
+            "                SELECT " +
+            "                    * " +
+            "                FROM " +
+            "                    lc_project_currentmoney " +
+            "                ORDER BY " +
+            "                    id DESC " +
+            "            ) t1 " +
+            "        GROUP BY " +
+            "            t1.pid " +
+            "    ) t3 " +
+            "WHERE " +
+            "    t2.id = t3.pid AND t2.type = #{type} " +
+            "ORDER BY " +
+            "    allProfit DESC")
     List<ProjectVO> getProjectListByType(int type);
 
     //获取全部项目列表（包含每个项目的累计收益）
     @Select({
             "<script>",
-            "select",
-            "t1.*,(SELECT currentMoney FROM lc_project_currentmoney WHERE pid = t1.id AND lastUpdateTime = (SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney WHERE pid = t1.id)) currentMoney,(SELECT MAX(lastUpdateTime) lastUpdateTime FROM lc_project_currentmoney WHERE pid = t1.id) lastUpdateTime",
-            "from lc_project t1",
-            "where t1.id in",
+            "SELECT " ,
+            "    t2.*, t3.currentMoney, " ,
+            "    t3.lastUpdateTime, " ,
+            "    t3.currentMoney + ( " ,
+            "        SELECT " ,
+            "            SUM(t4.optionMoney) " ,
+            "        FROM " ,
+            "            lc_history t4 " ,
+            "        WHERE " ,
+            "            t4.pid = t2.id " ,
+            "    ) allProfit " ,
+            "FROM " ,
+            "    lc_project t2, " ,
+            "    ( " ,
+            "        SELECT " ,
+            "            t1.* " ,
+            "        FROM " ,
+            "            ( " ,
+            "                SELECT " ,
+            "                    * " ,
+            "                FROM " ,
+            "                    lc_project_currentmoney " ,
+            "                ORDER BY " ,
+            "                    id DESC " ,
+            "            ) t1 " ,
+            "        GROUP BY " ,
+            "            t1.pid " ,
+            "    ) t3 " ,
+            "WHERE " ,
+            "    t2.id = t3.pid AND t2.id in " ,
             "<foreach collection='ids' item='id' open='(' separator=',' close=')'>",
             "#{id}",
             "</foreach>",
+            "ORDER BY " ,
+            "    allProfit DESC",
             "</script>"
     })
     List<ProjectVO> getProjectListByIds(@Param("ids") List<String> ids);
 
-    @Select("SELECT currentMoney FROM lc_project_currentmoney WHERE pid = #{id} AND lastUpdateTime = (SELECT MAX(lastUpdateTime) FROM lc_project_currentmoney WHERE pid = #{id})")
+    @Select("SELECT " +
+            "    t1.currentMoney " +
+            "FROM " +
+            "    ( " +
+            "        SELECT " +
+            "            * " +
+            "        FROM " +
+            "            lc_project_currentmoney " +
+            "        WHERE " +
+            "            pid = #{pid} " +
+            "        ORDER BY " +
+            "            id DESC " +
+            "    ) t1 " +
+            "GROUP BY " +
+            "    t1.pid")
     double getCurrentMoneyByPid(int pid);
 
 }

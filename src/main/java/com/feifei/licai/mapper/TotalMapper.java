@@ -11,18 +11,58 @@ public interface TotalMapper {
      * 当前金额累计
      * @return
      */
-    @Select("SELECT SUM(t2.currentMoney) FROM lc_project_currentmoney t2 LEFT JOIN (SELECT t1.pid,MAX(lastUpdateTime) lastUpdateTime FROM " +
-            "lc_project_currentmoney t1 GROUP BY t1.pid) " +
-            "t3 ON t2.pid = t3.pid AND t2.lastUpdateTime = t3.lastUpdateTime")
+    @Select("SELECT " +
+            "    SUM(t2.currentMoney) currentMoney " +
+            "FROM " +
+            "    ( " +
+            "        SELECT " +
+            "            t1.currentMoney " +
+            "        FROM " +
+            "            ( " +
+            "                SELECT " +
+            "                    * " +
+            "                FROM " +
+            "                    lc_project_currentmoney " +
+            "                ORDER BY " +
+            "                    id DESC " +
+            "            ) t1 " +
+            "        GROUP BY " +
+            "            t1.pid " +
+            "    ) t2")
     double getTotalCurrentMoney();
 
     /**
      * 当前收益累计
      * @return
      */
-    @Select("SELECT (SELECT SUM(t2.currentMoney) FROM lc_project_currentmoney t2 LEFT JOIN (SELECT t1.pid,MAX(lastUpdateTime) lastUpdateTime " +
-            "FROM lc_project_currentmoney t1 GROUP BY t1.pid) t3 ON t2.pid = t3.pid AND t2.lastUpdateTime = t3.lastUpdateTime) + (SELECT SUM(t1.optionMoney)" +
-            " AS totalProfit FROM lc_history t1) FROM DUAL")
+    @Select("SELECT " +
+            "    ( " +
+            "        SELECT " +
+            "            SUM(t2.currentMoney) currentMoney " +
+            "        FROM " +
+            "            ( " +
+            "                SELECT " +
+            "                    t1.currentMoney " +
+            "                FROM " +
+            "                    ( " +
+            "                        SELECT " +
+            "                            * " +
+            "                        FROM " +
+            "                            lc_project_currentmoney " +
+            "                        ORDER BY " +
+            "                            id DESC " +
+            "                    ) t1 " +
+            "                GROUP BY " +
+            "                    t1.pid " +
+            "            ) t2 " +
+            "    ) + ( " +
+            "        SELECT " +
+            "            SUM(t3.optionMoney) AS totalProfit " +
+            "        FROM " +
+            "            lc_history t3 " +
+            "    ) allProfit " +
+            "FROM " +
+            "    DUAL")
     double getTotalProfit();
 
 

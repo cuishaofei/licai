@@ -2,8 +2,10 @@ package com.feifei.licai.service;
 
 import com.feifei.licai.mapper.HistoryMapper;
 import com.feifei.licai.mapper.ProjectMapper;
+import com.feifei.licai.mapper.ProjectMoneyMapper;
 import com.feifei.licai.model.History;
 import com.feifei.licai.model.Project;
+import com.feifei.licai.model.ProjectMoney;
 import com.feifei.licai.util.DateTimeUtil;
 import com.feifei.licai.util.OptionType;
 import com.feifei.licai.vo.HistoryVO;
@@ -29,6 +31,9 @@ public class HistoryService {
 
     @Autowired
     private ProjectMapper projectMapper;
+
+    @Autowired
+    private ProjectMoneyMapper projectMoneyMapper;
 
     /**
      * 根据pid获取单条记录的详情
@@ -88,15 +93,15 @@ public class HistoryService {
             //获取当前金额
             double currentMoney = projectMapper.getCurrentMoneyByPid(id);
             //更新统计表
-            Project project = new Project();
-            project.setId(id);
+            ProjectMoney projectMoney = new ProjectMoney();
+            projectMoney.setPid(id);
             if(option == 1){
-                project.setCurrentMoney(currentMoney + optionMoney);
+                projectMoney.setCurrentMoney(currentMoney + optionMoney);
             }else {
-                project.setCurrentMoney(currentMoney - optionMoney);
+                projectMoney.setCurrentMoney(currentMoney - optionMoney);
             }
-            project.setLastUpdateTime(new Date());
-            projectMapper.addCurrentMoney(project);
+            projectMoney.setLastUpdateTime(new Date());
+            projectMoneyMapper.addCurrentMoney(projectMoney);
             flag = true;
             return  flag;
         }
@@ -104,11 +109,11 @@ public class HistoryService {
         if(StringUtils.isEmpty(optionMoneyStr) && !StringUtils.isEmpty(currentMoneyStr)){
             //更新统计表
             Double currentMoney = Double.valueOf(currentMoneyStr);
-            Project project = new Project();
-            project.setId(id);
-            project.setCurrentMoney(currentMoney);
-            project.setLastUpdateTime(new Date());
-            projectMapper.addCurrentMoney(project);
+            ProjectMoney projectMoney = new ProjectMoney();
+            projectMoney.setPid(id);
+            projectMoney.setCurrentMoney(currentMoney);
+            projectMoney.setLastUpdateTime(new Date());
+            projectMoneyMapper.addCurrentMoney(projectMoney);
             flag = true;
             return  flag;
         }
@@ -133,13 +138,13 @@ public class HistoryService {
             }
             history.setPid(id);
             historyMapper.addHistory(history);
-            //更新统计表
+            //新增当前金额明细
             Double currentMoney = Double.valueOf(currentMoneyStr);
-            Project project = new Project();
-            project.setId(id);
-            project.setCurrentMoney(currentMoney);
-            project.setLastUpdateTime(new Date());
-            projectMapper.addCurrentMoney(project);
+            ProjectMoney projectMoney = new ProjectMoney();
+            projectMoney.setPid(id);
+            projectMoney.setCurrentMoney(currentMoney);
+            projectMoney.setLastUpdateTime(new Date());
+            projectMoneyMapper.addCurrentMoney(projectMoney);
             flag = true;
             return  flag;
         }

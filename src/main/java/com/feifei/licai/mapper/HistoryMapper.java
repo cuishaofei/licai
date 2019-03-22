@@ -27,7 +27,15 @@ public interface  HistoryMapper {
      * @param history
      * @return
      */
-    @Insert("INSERT INTO `lc_history` (`option`, `optionMoney`, `createTime`, `pid`) VALUES(#{option},#{optionMoney},#{createTime},#{pid})")
+    @Insert("INSERT INTO `lc_history` ( " +
+            "    `option`, " +
+            "    `optionMoney`, " +
+            "    `createTime`, " +
+            "    `pid` " +
+            ") " +
+            "VALUES " +
+            "    ( " +
+            "        #{option},#{optionMoney},#{createTime},#{pid})")
     void addHistory(History history);
 
     /**
@@ -49,7 +57,14 @@ public interface  HistoryMapper {
      * 获取全部明细
      * @return
      */
-    @Select("SELECT t1.* FROM lc_history t1,lc_project t2 WHERE t1.pid = t2.id AND t2.type = #{type} ORDER BY t1.createTime")
+    @Select("SELECT " +
+            "    t1.* " +
+            "FROM " +
+            "    lc_history t1, " +
+            "    lc_project t2 " +
+            "WHERE " +
+            "    t1.pid = t2.id " +
+            "AND t2.type = #{type} ORDER BY t1.createTime")
     List<HistoryVO> getHistoryListByType(int type);
 
     /**
