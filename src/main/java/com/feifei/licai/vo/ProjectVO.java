@@ -1,14 +1,8 @@
 package com.feifei.licai.vo;
 
-import jdk.nashorn.internal.objects.annotations.Constructor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.beans.ConstructorProperties;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by cuishaofei on 2019/3/16.
@@ -25,6 +19,8 @@ public class ProjectVO {
     private String code;
     //当前金额
     private double currentMoney;
+    //当年累计收益
+    private double yearProfit;
     //累计收益
     private double allProfit;
     //年化收益率

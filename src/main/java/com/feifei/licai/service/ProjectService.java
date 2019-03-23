@@ -63,7 +63,7 @@ public class ProjectService{
                    }
                }
                String yearRate = getYearRateByHistorys(histories,currentMoney);
-               ProjectVO total = new ProjectVO(pid,project.getName(),project.getCode(),currentMoney,
+               ProjectVO total = new ProjectVO(pid,project.getName(),project.getCode(),currentMoney,project.getYearProfit(),
                        project.getAllProfit(),yearRate, LicaiType.getDescByValue(Integer.parseInt(project.getType())),
                        project.getAppName(), RiskType.getDescByValue(Integer.parseInt(project.getRiskLevel())),
                        project.getMark(), project.getLastUpdateTime());

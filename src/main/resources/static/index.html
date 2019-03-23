@@ -18,6 +18,8 @@
 			initAllListProportion();
             //理财投资策略对比表
             initAllListStrategy();
+            //每年的累计收益
+			initEveryYearProfit();
             //初始化各理财产品收益对比的图表
 			initContrastByCharts();
         });
@@ -57,6 +59,14 @@
             $('#allListStrategy').datagrid({
                 method : "get",
                 url : "/total/getStrategy"
+            });
+        }
+
+        //每年的累计收益
+        function  initEveryYearProfit() {
+            $('#everyYearProfit').datagrid({
+                method : "get",
+                url : "/total/getYearProfit"
             });
         }
 		
@@ -230,7 +240,7 @@
                     // 指定图表的配置项和数据
                     var option = {
                         title: {
-                            text: '收益对比'
+                            text: '累计收益对比'
                         },
                         tooltip: {},
                         legend: {
@@ -316,6 +326,7 @@
 				<th data-options="field:'name',width:3,halign:'center',align:'center'">投资平台</th>
 				<th data-options="field:'code',width:1,halign:'center',align:'center'">投资编码</th>
 				<th data-options="field:'currentMoney',width:1,halign:'center',align:'center'">当前金额</th>
+				<th data-options="field:'yearProfit',width:1,halign:'center',align:'center'">当年收益</th>
 				<th data-options="field:'allProfit',width:1,halign:'center',align:'center'">累计收益</th>
 				<th data-options="field:'yearRate',width:1,halign:'center',align:'center'">年化收益率</th>
 				<th data-options="field:'type',width:1,halign:'center',align:'center'">类型</th>
@@ -330,6 +341,22 @@
 
 		</tbody>
 	</table>
+	</div>
+
+	<h2>每年的累计收益</h2>
+	<!--列表区-->
+	<div>
+		<table id="everyYearProfit" class="easyui-datagrid" title="每年的累计收益"  rownumbers="true" data-options="fitColumns:true">
+			<thead>
+			<tr>
+				<th data-options="field:'yearStr',halign:'center',align:'center',width:1">年份</th>
+				<th data-options="field:'yearProfit',halign:'center',align:'center',width:1">收益累计</th>
+			</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
 	</div>
 	
 	<h2>理财收益汇总表</h2>

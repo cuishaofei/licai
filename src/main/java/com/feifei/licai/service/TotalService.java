@@ -7,10 +7,7 @@ import com.feifei.licai.model.History;
 import com.feifei.licai.util.DateTimeUtil;
 import com.feifei.licai.util.xirr.Transaction;
 import com.feifei.licai.util.xirr.Xirr;
-import com.feifei.licai.vo.Contrast;
-import com.feifei.licai.vo.HistoryVO;
-import com.feifei.licai.vo.ProjectVO;
-import com.feifei.licai.vo.ProportionVO;
+import com.feifei.licai.vo.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -212,4 +209,11 @@ public class TotalService {
         return  list;
     }
 
+    /**
+     * 获取每年的总收益
+     * @return
+     */
+    public List<TotalVO>  getYearProfit() {
+        return totalMapper.getYearProfit();
+    }
 }

@@ -94,4 +94,21 @@ public class TotalController {
         }
         return null;
     }
+
+    @GetMapping
+    @RequestMapping("/getYearProfit")
+    public DataGridResult getYearProfit(){
+        try {
+            DataGridResult result = new DataGridResult();
+
+            List<TotalVO> list = totalService.getYearProfit();
+
+            result.setTotal(list.size());
+            result.setRows(list);
+            return result;
+        } catch (Exception e) {
+            logger.error("发生异常", e);
+        }
+        return null;
+    }
 }
