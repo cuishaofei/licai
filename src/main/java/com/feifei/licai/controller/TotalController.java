@@ -82,12 +82,25 @@ public class TotalController {
         return null;
     }
 
-    @RequestMapping("/getContrast")
-    public List<Contrast> getContrast(){
+    @RequestMapping("/getYearProfitContrast")
+    public List<Contrast> getYearProfitContrast(){
         List<Contrast> list = null;
         try {
             //从数据库获取数据传给页面展示
-            list = totalService.getContrast();
+            list = totalService.getYearProfitContrast();
+            return list;
+        } catch (Exception e) {
+            logger.error("发生异常", e);
+        }
+        return null;
+    }
+
+    @RequestMapping("/getTotalProfitContrast")
+    public List<Contrast> getTotalProfitContrast(){
+        List<Contrast> list = null;
+        try {
+            //从数据库获取数据传给页面展示
+            list = totalService.getTotalProfitContrast();
             return list;
         } catch (Exception e) {
             logger.error("发生异常", e);

@@ -196,10 +196,24 @@ public class TotalService {
     }
 
     /**
-     * 各理财产品收益对比的图表
+     * 初始化各理财产品当年收益对比的图表
      * @return
      */
-    public List<Contrast>  getContrast() {
+    public List<Contrast>  getYearProfitContrast() {
+        List<Contrast> list = new ArrayList<Contrast>();
+        List<ProjectVO> projectList = projectMapper.getProjectList();
+        for(ProjectVO project : projectList){
+            Contrast contrast = new Contrast(project.getName(),project.getYearProfit());
+            list.add(contrast);
+        }
+        return  list;
+    }
+
+    /**
+     * 初始化各理财产品累计收益对比的图表
+     * @return
+     */
+    public List<Contrast>  getTotalProfitContrast() {
         List<Contrast> list = new ArrayList<Contrast>();
         List<ProjectVO> projectList = projectMapper.getProjectList();
         for(ProjectVO project : projectList){
