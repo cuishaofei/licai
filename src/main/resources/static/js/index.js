@@ -239,7 +239,7 @@ function initContrastByCharts(url,text,elementID) {
             option = null;
             option = {
                 title: {
-                    text: '当年收益对比',
+                    text: text,
                 },
                 tooltip: {
                     trigger: 'axis'
