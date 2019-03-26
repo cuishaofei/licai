@@ -42,7 +42,7 @@ public interface  ProjectMapper {
             "                                lc_history t6 " +
             "                            WHERE " +
             "                                t5.pid = t6.pid " +
-            "                            AND t6.createTime < t5.lastUpdateTime " +
+            "                            AND t6.createTime <= t5.lastUpdateTime " +
             "                        ) previousYearAllProfit " +
             "                    FROM " +
             "                        ( " +
@@ -53,7 +53,7 @@ public interface  ProjectMapper {
             "                            FROM " +
             "                                lc_project_currentmoney " +
             "                            WHERE " +
-            "                                lastUpdateTime < ( " +
+            "                                lastUpdateTime <= ( " +
             "                                    SELECT " +
             "                                        DATE_SUB( " +
             "                                            CURDATE(), " +

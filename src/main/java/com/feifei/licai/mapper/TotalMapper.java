@@ -87,7 +87,7 @@ public interface TotalMapper {
             "                    lc_history t2 " +
             "                WHERE " +
             "                    t2.pid = t1.pid " +
-            "                AND t2.createTime < t1.lastUpdateTime " +
+            "                AND t2.createTime <= t1.lastUpdateTime " +
             "            ) - IFNULL( " +
             "                ( " +
             "                    SELECT " +
@@ -103,7 +103,7 @@ public interface TotalMapper {
             "                                        lc_history t4 " +
             "                                    WHERE " +
             "                                        t4.pid = t3.pid " +
-            "                                    AND t4.createTime < t3.lastUpdateTime " +
+            "                                    AND t4.createTime <= t3.lastUpdateTime " +
             "                                ) allYearProfit " +
             "                            FROM " +
             "                                ( " +
