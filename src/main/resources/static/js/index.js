@@ -232,8 +232,8 @@ function initContrastByCharts(url,text,elementID) {
             lable = lable.reverse();
             lableData = lableData.reverse();
             var maxValue = lableData[lableData.length - 1];
-            maxValue = maxValue;
             var minValue = lableData[0];
+            //初始化柱图
             var myChart = echarts.init(document.getElementById(elementID));
             var app = {};
             option = null;
@@ -242,16 +242,7 @@ function initContrastByCharts(url,text,elementID) {
                     text: '当年收益对比',
                 },
                 tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    }
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
+                    trigger: 'axis'
                 },
                 xAxis: {
                     type: 'value',
@@ -262,9 +253,12 @@ function initContrastByCharts(url,text,elementID) {
                     type: 'category',
                     data: lable
                 },
+                grid: {
+                    left:'20%'
+                },
                 series: [
                     {
-                        name: '投资项目',
+                        name: '收益',
                         type: 'bar',
                         data: lableData
                     }
