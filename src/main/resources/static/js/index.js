@@ -229,36 +229,48 @@ function initContrastByCharts(url,text,elementID) {
                 lable[idx] = obj.name;
                 lableData[idx] = obj.value;
             });
-            // 基于准备好的dom，初始化echarts实例
+            lable = lable.reverse();
+            lableData = lableData.reverse();
+            var maxValue = lableData[lableData.length - 1];
+            maxValue = maxValue;
+            var minValue = lableData[0];
             var myChart = echarts.init(document.getElementById(elementID));
-            // 指定图表的配置项和数据
-            var option = {
+            var app = {};
+            option = null;
+            option = {
                 title: {
-                    text: text
+                    text: '当年收益对比',
                 },
-                tooltip: {},
-                legend: {
-                    data:['理财产品']
-                },
-                xAxis: {
-                    data: lable,
-                    axisLabel:{
-                        interval:0,
-                        rotate:40
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
                     }
                 },
-                yAxis: {},
-                series: [{
-                    name: '理财产品',
-                    type: 'bar',
-                    data: lableData
-                }] ,grid:{
-                    left:'10%',
-                    bottom:'35%'
-                }
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis: {
+                    type: 'value',
+                    min:minValue,
+                    max:maxValue
+                },
+                yAxis: {
+                    type: 'category',
+                    data: lable
+                },
+                series: [
+                    {
+                        name: '投资项目',
+                        type: 'bar',
+                        data: lableData
+                    }
+                ]
             };
-            // 使用刚指定的配置项和数据显示图表。
-            myChart.setOption(option);
+            myChart.setOption(option, true);
         }
     });
 }
