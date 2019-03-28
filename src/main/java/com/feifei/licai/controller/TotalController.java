@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by cuishaofei on 2019/3/16.
@@ -71,9 +72,8 @@ public class TotalController {
     public DataGridResult getStrategy(){
         try {
             DataGridResult result = new DataGridResult();
-            List list = new ArrayList();
-            list.add(totalService.getStrategy());
-            result.setTotal(1);
+            List<Map<String,Object>> list = totalService.getStrategy();
+            result.setTotal(list.size());
             result.setRows(list);
             return result;
         } catch (Exception e) {

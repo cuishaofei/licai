@@ -42,6 +42,8 @@ public class TotalService {
     private String yhlsd;
     @Value("${choose.feifei}")
     private String feifei;
+    @Value("${choose.ed}")
+    private String ed;
 
 
     @Value("${per.zhishu}")
@@ -186,13 +188,26 @@ public class TotalService {
      * 获取投资策略
      * @return
      */
-    public Map<String,Object>  getStrategy() {
-        Map<String,Object> map = new HashMap();
+    public List<Map<String,Object>>  getStrategy() {
+        List<Map<String,Object>> list = new ArrayList<>();
         //根据不同策略对应的项目ID查询年化收益率
-        map.put("jq",getTotalYearRate(Arrays.asList(jianqi.split(","))));
-        map.put("yhlsd",getTotalYearRate(Arrays.asList(yhlsd.split(","))));
-        map.put("feifei",getTotalYearRate(Arrays.asList(feifei.split(","))));
-        return  map;
+        Map<String,Object> map1 = new HashMap();
+        map1.put("name","简七");
+        map1.put("value",getTotalYearRate(Arrays.asList(jianqi.split(","))));
+        Map<String,Object> map2 = new HashMap();
+        map2.put("name","银行螺丝钉");
+        map2.put("value",getTotalYearRate(Arrays.asList(yhlsd.split(","))));
+        Map<String,Object> map3 = new HashMap();
+        map3.put("name","飞哥自选");
+        map3.put("value",getTotalYearRate(Arrays.asList(feifei.split(","))));
+        Map<String,Object> map4 = new HashMap();
+        map4.put("name","E大");
+        map4.put("value",getTotalYearRate(Arrays.asList(ed.split(","))));
+        list.add(map1);
+        list.add(map2);
+        list.add(map3);
+        list.add(map4);
+        return  list;
     }
 
     /**
