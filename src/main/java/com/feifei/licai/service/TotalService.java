@@ -3,7 +3,7 @@ package com.feifei.licai.service;
 import com.feifei.licai.mapper.HistoryMapper;
 import com.feifei.licai.mapper.ProjectMapper;
 import com.feifei.licai.mapper.TotalMapper;
-import com.feifei.licai.model.History;
+import com.feifei.licai.util.Constants;
 import com.feifei.licai.util.DateTimeUtil;
 import com.feifei.licai.util.xirr.Transaction;
 import com.feifei.licai.util.xirr.Xirr;
@@ -79,7 +79,7 @@ public class TotalService {
     public String getTotalYearRate(){
         String yearRate = "";
         List<HistoryVO> histories = historyMapper.getHistoryList();
-        List<ProjectVO> projects = projectMapper.getProjectList();
+        List<ProjectVO> projects = projectMapper.getProjectList(Constants.orderCurrentMoney);
         List<Transaction> transactions = new ArrayList<Transaction>();
         for(int i = 0;i<histories.size();i++){
             HistoryVO history = histories.get(i);
@@ -216,7 +216,7 @@ public class TotalService {
      */
     public List<Contrast>  getYearProfitContrast() {
         List<Contrast> list = new ArrayList<Contrast>();
-        List<ProjectVO> projectList = projectMapper.getProjectList();
+        List<ProjectVO> projectList = projectMapper.getProjectList(Constants.orderAllProfit);
         for(ProjectVO project : projectList){
             Contrast contrast = new Contrast(project.getName(),project.getYearProfit());
             list.add(contrast);
@@ -230,7 +230,7 @@ public class TotalService {
      */
     public List<Contrast>  getTotalProfitContrast() {
         List<Contrast> list = new ArrayList<Contrast>();
-        List<ProjectVO> projectList = projectMapper.getProjectList();
+        List<ProjectVO> projectList = projectMapper.getProjectList(Constants.orderAllProfit);
         for(ProjectVO project : projectList){
             Contrast contrast = new Contrast(project.getName(),project.getAllProfit());
             list.add(contrast);

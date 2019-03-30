@@ -3,6 +3,7 @@ package com.feifei.licai.service;
 import com.feifei.licai.mapper.HistoryMapper;
 import com.feifei.licai.mapper.ProjectMapper;
 import com.feifei.licai.model.History;
+import com.feifei.licai.util.Constants;
 import com.feifei.licai.util.DateTimeUtil;
 import com.feifei.licai.util.LicaiType;
 import com.feifei.licai.util.RiskType;
@@ -41,7 +42,7 @@ public class ProjectService{
      * @return
      */
     public List<ProjectVO> getProjectList() {
-        List<ProjectVO> list = projectMapper.getProjectList();
+        List<ProjectVO> list = projectMapper.getProjectList(Constants.orderCurrentMoney);
         List<HistoryVO> allHistory = historyMapper.getHistoryList();
         List<ProjectVO> projectVOArrayList = new ArrayList<ProjectVO>();
         if(list != null && list.size() > 0){

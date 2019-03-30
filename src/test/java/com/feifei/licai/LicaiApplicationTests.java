@@ -3,6 +3,7 @@ package com.feifei.licai;
 import com.feifei.licai.mapper.HistoryMapper;
 import com.feifei.licai.mapper.ProjectMapper;
 import com.feifei.licai.service.ProjectService;
+import com.feifei.licai.util.Constants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
@@ -39,7 +40,8 @@ public class LicaiApplicationTests {
 
 	@Test
 	public void contextLoads() {
-
+//		projectMapper.getProjectList(Constants.orderCurrentMoney);
+//		projectMapper.getProjectList(Constants.orderAllProfit);
 	}
 
 }

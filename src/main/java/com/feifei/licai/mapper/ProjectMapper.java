@@ -12,7 +12,7 @@ import java.util.List;
 public interface  ProjectMapper {
 
     //获取全部项目列表（包含每个项目的累计收益）
-    @Select("SELECT t8.*,t8.allProfit - t8.previousYearAllProfit yearProfit FROM ( " +
+    @Select("<script>SELECT t8.*,t8.allProfit - t8.previousYearAllProfit yearProfit FROM ( " +
             "SELECT " +
             "    t2.*,t3.currentMoney, " +
             "    t3.lastUpdateTime, " +
@@ -42,7 +42,7 @@ public interface  ProjectMapper {
             "                                lc_history t6 " +
             "                            WHERE " +
             "                                t5.pid = t6.pid " +
-            "                            AND t6.createTime <= t5.lastUpdateTime " +
+            "                            AND t6.createTime &lt;= t5.lastUpdateTime " +
             "                        ) previousYearAllProfit " +
             "                    FROM " +
             "                        ( " +
@@ -53,7 +53,7 @@ public interface  ProjectMapper {
             "                            FROM " +
             "                                lc_project_currentmoney " +
             "                            WHERE " +
-            "                                lastUpdateTime <= ( " +
+            "                                lastUpdateTime &lt;= ( " +
             "                                    SELECT " +
             "                                        DATE_SUB( " +
             "                                            CURDATE(), " +
@@ -91,9 +91,13 @@ public interface  ProjectMapper {
             "WHERE " +
             "    t2.id = t3.pid " +
             ") t8 " +
-            "ORDER BY " +
-            "    t8.allProfit DESC")
-    List<ProjectVO> getProjectList();
+            " <if  test='_parameter==1'>" +
+            "   ORDER BY t8.currentMoney DESC" +
+            " </if > "+
+            " <if  test='_parameter==2'>" +
+            "   ORDER BY t8.allProfit DESC" +
+            " </if ></script>")
+    List<ProjectVO> getProjectList(int orderType);
 
     @Select("SELECT " +
             "    SUM(t3.currentMoney) " +
