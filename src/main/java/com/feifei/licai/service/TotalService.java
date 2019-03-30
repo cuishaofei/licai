@@ -65,7 +65,7 @@ public class TotalService {
     }
 
     /**
-     *当前收益累计
+     *当前累计收益
      * @return
      */
     public double getTotalProfit(){

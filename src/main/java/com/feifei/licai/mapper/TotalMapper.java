@@ -35,7 +35,7 @@ public interface TotalMapper {
     double getTotalCurrentMoney();
 
     /**
-     * 当前收益累计
+     * 当前累计收益
      * @return
      */
     @Select("SELECT " +
