@@ -44,6 +44,8 @@ public class TotalService {
     private String feifei;
     @Value("${choose.ed}")
     private String ed;
+    @Value("${choose.udt}")
+    private String udt;
 
 
     @Value("${per.zhishu}")
@@ -57,92 +59,103 @@ public class TotalService {
 
 
     /**
-     *当前金额累计
+     * 当前金额累计
+     *
      * @return
      */
-    public double getTotalCurrentMoney(){
-        return  totalMapper.getTotalCurrentMoney();
+    public double getTotalCurrentMoney() {
+        return totalMapper.getTotalCurrentMoney();
     }
 
     /**
-     *当前累计收益
+     * 当前累计收益
+     *
      * @return
      */
-    public double getTotalProfit(){
-        return  totalMapper.getTotalProfit();
+    public double getTotalProfit() {
+        return totalMapper.getTotalProfit();
     }
 
     /**
      * 当前年化收益率累计
+     *
      * @return
      */
-    public String getTotalYearRate(){
+    public String getTotalYearRate() {
         String yearRate = "";
         List<HistoryVO> histories = historyMapper.getHistoryList();
         List<ProjectVO> projects = projectMapper.getProjectList(Constants.orderCurrentMoney);
         List<Transaction> transactions = new ArrayList<Transaction>();
-        for(int i = 0;i<histories.size();i++){
+        for (int i = 0; i < histories.size(); i++) {
             HistoryVO history = histories.get(i);
-            Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatStringtoDateTime(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
+            Transaction transaction = new Transaction(history.getOptionMoney(), DateTimeUtil.formatStringtoDateTime(history.getCreateTime(), DateTimeUtil.FMT_yyyyMMdd));
             transactions.add(transaction);
         }
-        for(int i = 0;i<projects.size();i++){
+        for (int i = 0; i < projects.size(); i++) {
             ProjectVO project = projects.get(i);
-            transactions.add(new Transaction(project.getCurrentMoney(),DateTimeUtil.formatDateTimetoString(new Date(),DateTimeUtil.FMT_yyyyMMdd)));
+            transactions.add(new Transaction(project.getCurrentMoney(), DateTimeUtil.formatDateTimetoString(new Date(), DateTimeUtil.FMT_yyyyMMdd)));
         }
         double xirr = new Xirr(transactions).xirr();
         BigDecimal bg = new BigDecimal(xirr * 100).setScale(2, RoundingMode.UP);
         yearRate = bg.doubleValue() + "%";
-        return  yearRate;
+        return yearRate;
     }
 
     /**
      * 根据类型获取当前年化收益率累计
+     *
      * @return
      */
-    public String getTotalYearRate(int type){
+    public String getTotalYearRate(int type) {
         String yearRate = "";
         List<HistoryVO> histories = historyMapper.getHistoryListByType(type);
         List<ProjectVO> projects = projectMapper.getProjectListByType(type);
         List<Transaction> transactions = new ArrayList<Transaction>();
-        for(int i = 0;i<histories.size();i++){
+        for (int i = 0; i < histories.size(); i++) {
             HistoryVO history = histories.get(i);
-            Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatStringtoDateTime(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
+            Transaction transaction = new Transaction(history.getOptionMoney(), DateTimeUtil.formatStringtoDateTime(history.getCreateTime(), DateTimeUtil.FMT_yyyyMMdd));
             transactions.add(transaction);
         }
-        for(int i = 0;i<projects.size();i++){
+        for (int i = 0; i < projects.size(); i++) {
             ProjectVO project = projects.get(i);
-            transactions.add(new Transaction(project.getCurrentMoney(),DateTimeUtil.formatDateTimetoString(new Date(),DateTimeUtil.FMT_yyyyMMdd)));
+            transactions.add(new Transaction(project.getCurrentMoney(), DateTimeUtil.formatDateTimetoString(new Date(), DateTimeUtil.FMT_yyyyMMdd)));
         }
         double xirr = new Xirr(transactions).xirr();
         BigDecimal bg = new BigDecimal(xirr * 100).setScale(2, RoundingMode.UP);
         yearRate = bg.doubleValue() + "%";
-        return  yearRate;
+        return yearRate;
     }
 
     /**
      * 根据类型获取当前年化收益率累计
+     *
      * @return
      */
-    public String getTotalYearRate(List<String> ids){
+    public String getTotalYearRate(List<String> ids) {
         String yearRate = "";
-        List<HistoryVO> histories = historyMapper.getHistoryListByIds(ids);
-        List<ProjectVO> projects = projectMapper.getProjectListByIds(ids);
-        List<Transaction> transactions = new ArrayList<Transaction>();
-        for(int i = 0;i<histories.size();i++){
-            HistoryVO history = histories.get(i);
-            Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatStringtoDateTime(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
-            transactions.add(transaction);
+        try {
+            List<HistoryVO> histories = historyMapper.getHistoryListByIds(ids);
+            List<ProjectVO> projects = projectMapper.getProjectListByIds(ids);
+            List<Transaction> transactions = new ArrayList<Transaction>();
+            for (int i = 0; i < histories.size(); i++) {
+                HistoryVO history = histories.get(i);
+                Transaction transaction = new Transaction(history.getOptionMoney(), DateTimeUtil.formatStringtoDateTime(history.getCreateTime(), DateTimeUtil.FMT_yyyyMMdd));
+                transactions.add(transaction);
+            }
+            for (int i = 0; i < projects.size(); i++) {
+                ProjectVO project = projects.get(i);
+                transactions.add(new Transaction(project.getCurrentMoney(), DateTimeUtil.formatDateTimetoString(new Date(), DateTimeUtil.FMT_yyyyMMdd)));
+            }
+            double xirr = new Xirr(transactions).xirr();
+            BigDecimal bg = new BigDecimal(xirr * 100).setScale(2, RoundingMode.UP);
+            yearRate = bg.doubleValue() + "%";
+        } catch (Exception e) {
+            logger.error("发生异常", e);
         }
-        for(int i = 0;i<projects.size();i++){
-            ProjectVO project = projects.get(i);
-            transactions.add(new Transaction(project.getCurrentMoney(),DateTimeUtil.formatDateTimetoString(new Date(),DateTimeUtil.FMT_yyyyMMdd)));
-        }
-        double xirr = new Xirr(transactions).xirr();
-        BigDecimal bg = new BigDecimal(xirr * 100).setScale(2, RoundingMode.UP);
-        yearRate = bg.doubleValue() + "%";
-        return  yearRate;
+        return yearRate;
     }
+
+
 
     /**
      * 理财收益汇总表数据
@@ -203,10 +216,14 @@ public class TotalService {
         Map<String,Object> map4 = new HashMap();
         map4.put("name","E大");
         map4.put("value",getTotalYearRate(Arrays.asList(ed.split(","))));
+        Map<String,Object> map5 = new HashMap();
+        map5.put("name","U定投");
+        map5.put("value",getTotalYearRate(Arrays.asList(udt.split(","))));
         list.add(map1);
         list.add(map2);
         list.add(map3);
         list.add(map4);
+        list.add(map5);
         return  list;
     }
 
