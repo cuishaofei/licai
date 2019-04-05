@@ -5,7 +5,7 @@ package com.feifei.licai.util;
  */
 public enum LicaiType {
 
-    ZHISHU(1, "指数型"),P2P(2, "P2P"),ZHAIQUAN(3, "债券型"),HUOBI(4, "货币型"),HUNHE(5, "混合型"),DINGQI(6, "定期理财"),YANGLAO(7, "养老基金");
+    GUPIAO(1, "股票型"),P2P(2, "P2P"),ZHAIQUAN(3, "债券型"),HUOBI(4, "货币型"),DINGQI(5, "定期理财"),YANGLAO(6, "养老基金");
 
     public Integer code;
     public String desc;

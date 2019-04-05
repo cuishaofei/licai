@@ -46,6 +46,10 @@ public class TotalService {
     private String ed;
     @Value("${choose.udt}")
     private String udt;
+    @Value("${choose.robot}")
+    private String robot;
+    @Value("${choose.cow}")
+    private String cow;
 
 
     @Value("${per.zhishu}")
@@ -184,7 +188,7 @@ public class TotalService {
         String zhaiquanRealPer = new BigDecimal(zhaiquanReal / totalCurrentMoney * 100).setScale(2, RoundingMode.UP).doubleValue()  + "%";
         String huobiRealPer = new BigDecimal(huobiReal / totalCurrentMoney * 100).setScale(2, RoundingMode.UP).doubleValue()  + "%";
 
-        ProportionVO proportionVO1 = new ProportionVO("指数型",zhishu * 100 + "%",zhishuRealPer,new BigDecimal(zhishuShould).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(zhishuReal).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(zhishuShould-zhishuReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(1));
+        ProportionVO proportionVO1 = new ProportionVO("股票型",zhishu * 100 + "%",zhishuRealPer,new BigDecimal(zhishuShould).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(zhishuReal).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(zhishuShould-zhishuReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(1));
         ProportionVO proportionVO2 = new ProportionVO("P2P",p2p * 100 + "%",p2pRealPer,new BigDecimal(p2pShould).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(p2pReal).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(p2pShould-p2pReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(2));
         ProportionVO proportionVO3 = new ProportionVO("债券型",zhaiquan * 100 + "%",zhaiquanRealPer,new BigDecimal(zhaiquanShould).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(zhaiquanReal).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(zhaiquanShould-zhaiquanReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(3));
         ProportionVO proportionVO4 = new ProportionVO("货币型",huobi * 100 + "%",huobiRealPer,new BigDecimal(huobiShould).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(huobiReal).setScale(2, RoundingMode.UP).doubleValue(),new BigDecimal(huobiShould-huobiReal).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(4));
@@ -205,25 +209,40 @@ public class TotalService {
         List<Map<String,Object>> list = new ArrayList<>();
         //根据不同策略对应的项目ID查询年化收益率
         Map<String,Object> map1 = new HashMap();
-        map1.put("name","简七");
-        map1.put("value",getTotalYearRate(Arrays.asList(jianqi.split(","))));
+        map1.put("name","银行螺丝钉");
+        map1.put("value",getTotalYearRate(Arrays.asList(yhlsd.split(","))));
+        map1.put("remark","每周二定投");
         Map<String,Object> map2 = new HashMap();
-        map2.put("name","银行螺丝钉");
-        map2.put("value",getTotalYearRate(Arrays.asList(yhlsd.split(","))));
+        map2.put("name","U定投");
+        map2.put("value",getTotalYearRate(Arrays.asList(udt.split(","))));
+        map2.put("remark","每周二定投");
         Map<String,Object> map3 = new HashMap();
         map3.put("name","飞哥自选");
         map3.put("value",getTotalYearRate(Arrays.asList(feifei.split(","))));
+        map3.put("remark","每周二定投");
         Map<String,Object> map4 = new HashMap();
-        map4.put("name","E大");
-        map4.put("value",getTotalYearRate(Arrays.asList(ed.split(","))));
+        map4.put("name","机器人1号");
+        map4.put("value",getTotalYearRate(Arrays.asList(robot.split(","))));
+        map4.put("remark","随时投");
         Map<String,Object> map5 = new HashMap();
-        map5.put("name","U定投");
-        map5.put("value",getTotalYearRate(Arrays.asList(udt.split(","))));
+        map5.put("name","牛基宝<成长型>");
+        map5.put("value",getTotalYearRate(Arrays.asList(cow.split(","))));
+        map5.put("remark","随时投");
+        Map<String,Object> map6 = new HashMap();
+        map6.put("name","E大");
+        map6.put("value",getTotalYearRate(Arrays.asList(ed.split(","))));
+        map6.put("remark","等待发车信息");
+        Map<String,Object> map7 = new HashMap();
+        map7.put("name","简七");
+        map7.put("value",getTotalYearRate(Arrays.asList(jianqi.split(","))));
+        map7.put("remark","每年动态平衡一次，下次平衡：2020/2/18");
         list.add(map1);
         list.add(map2);
         list.add(map3);
         list.add(map4);
         list.add(map5);
+        list.add(map6);
+        list.add(map7);
         return  list;
     }
 
