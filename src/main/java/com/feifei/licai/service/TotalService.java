@@ -221,13 +221,13 @@ public class TotalService {
         map3.put("value",getTotalYearRate(Arrays.asList(feifei.split(","))));
         map3.put("remark","每周二定投");
         Map<String,Object> map4 = new HashMap();
-        map4.put("name","机器人1号");
+        map4.put("name","机器人");
         map4.put("value",getTotalYearRate(Arrays.asList(robot.split(","))));
-        map4.put("remark","随时投");
+        map4.put("remark","随时投（基金组合、被动指数、智能算法）");
         Map<String,Object> map5 = new HashMap();
         map5.put("name","牛基宝<成长型>");
         map5.put("value",getTotalYearRate(Arrays.asList(cow.split(","))));
-        map5.put("remark","随时投");
+        map5.put("remark","随时投（基金组合、主动管理、投研实力）");
         Map<String,Object> map6 = new HashMap();
         map6.put("name","E大");
         map6.put("value",getTotalYearRate(Arrays.asList(ed.split(","))));
