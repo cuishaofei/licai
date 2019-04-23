@@ -7,18 +7,27 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectMoney {
-    //id
+    /**
+     * id
+     */
     private int id;
-    //当前金额
+    /**
+     * 当前金额
+     */
     private double currentMoney;
-    //最后更新时间
+    /**
+     * 最后更新时间
+     */
     private Date lastUpdateTime;
-    //pid
+    /**
+     * pid
+     */
     private int pid;
 }

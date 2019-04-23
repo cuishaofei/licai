@@ -7,11 +7,16 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 public interface  ProjectMapper {
 
-    //获取全部项目列表（包含每个项目的累计收益）
+    /**
+     * 获取全部项目列表（包含每个项目的累计收益）
+     * @param orderType
+     * @return
+     */
     @Select("<script>SELECT t8.*,t8.allProfit - t8.previousYearAllProfit yearProfit FROM ( " +
             "SELECT " +
             "    t2.*,t3.currentMoney, " +
@@ -99,6 +104,11 @@ public interface  ProjectMapper {
             " </if ></script>")
     List<ProjectVO> getProjectList(int orderType);
 
+    /**
+     * 根据类型获取当前的金额
+     * @param type
+     * @return
+     */
     @Select("SELECT " +
             "    SUM(t3.currentMoney) " +
             "FROM " +
@@ -123,7 +133,11 @@ public interface  ProjectMapper {
             "AND t2.type = #{type}")
     double getCurrentMoneyByType(int type);
 
-    //获取全部项目列表（包含每个项目的累计收益）
+    /**
+     * 获取全部项目列表（包含每个项目的累计收益）
+     * @param type
+     * @return
+     */
     @Select("SELECT " +
             "    t2.*, t3.currentMoney, " +
             "    t3.lastUpdateTime, " +
@@ -161,7 +175,11 @@ public interface  ProjectMapper {
             "    allProfit DESC")
     List<ProjectVO> getProjectListByType(int type);
 
-    //获取全部项目列表（包含每个项目的累计收益）
+    /**
+     * 根据项目ID获取全部项目列表（包含每个项目的累计收益）
+     * @param ids
+     * @return
+     */
     @Select({
             "<script>",
             "SELECT " ,
@@ -203,6 +221,11 @@ public interface  ProjectMapper {
     })
     List<ProjectVO> getProjectListByIds(@Param("ids") List<String> ids);
 
+    /**
+     * 根据项目ID获取当前金额
+     * @param pid
+     * @return
+     */
     @Select("SELECT " +
             "    t1.currentMoney " +
             "FROM " +

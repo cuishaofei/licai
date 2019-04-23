@@ -8,7 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 public class DateTimeUtil {
 
@@ -17,12 +18,12 @@ public class DateTimeUtil {
     /**
      * 把时间格式化成如：2002-08-03 08:26:16 格式的字符串
      */
-    public final static String FMT_yyyyMMddHHmmss = "yyyy-MM-dd HH:mm:ss";
+    public final static String FMT_YYYYMMDDHHMMSS = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 把时间格式化成如：2002-08-03格式的字符串
      */
-    public final static String FMT_yyyyMMdd = "yyyy-MM-dd";
+    public final static String FMT_YYYYMMDD = "yyyy-MM-dd";
 
 
     /**
@@ -33,7 +34,7 @@ public class DateTimeUtil {
      * @return 如果为null，返回""
      */
     public static String formatDateTimetoString(Date dateTime) {
-        return formatDateTimetoString(dateTime, FMT_yyyyMMddHHmmss);
+        return formatDateTimetoString(dateTime, FMT_YYYYMMDDHHMMSS);
     }
 
     /**
@@ -44,7 +45,7 @@ public class DateTimeUtil {
      * @return 如果为null，返回""
      */
     public static Date formatStringtoDateTime(String dateTime) {
-        return formatStringtoDateTime(dateTime, FMT_yyyyMMddHHmmss);
+        return formatStringtoDateTime(dateTime, FMT_YYYYMMDDHHMMSS);
     }
 
     /**

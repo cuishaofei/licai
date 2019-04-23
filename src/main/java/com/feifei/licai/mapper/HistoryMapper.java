@@ -10,7 +10,8 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 public interface  HistoryMapper {
 
@@ -55,6 +56,7 @@ public interface  HistoryMapper {
 
     /**
      * 获取全部明细
+     * @param type
      * @return
      */
     @Select("SELECT " +
@@ -69,6 +71,7 @@ public interface  HistoryMapper {
 
     /**
      * 获取全部明细
+     * @param ids
      * @return
      */
     @Select({

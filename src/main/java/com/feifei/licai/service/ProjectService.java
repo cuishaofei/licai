@@ -23,9 +23,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
-
 @Service
 public class ProjectService{
     @Autowired
@@ -42,7 +42,7 @@ public class ProjectService{
      * @return
      */
     public List<ProjectVO> getProjectList() {
-        List<ProjectVO> list = projectMapper.getProjectList(Constants.orderCurrentMoney);
+        List<ProjectVO> list = projectMapper.getProjectList(Constants.ORDER_CURRENT_MONEY);
         List<HistoryVO> allHistory = historyMapper.getHistoryList();
         List<ProjectVO> projectVOArrayList = new ArrayList<ProjectVO>();
         if(list != null && list.size() > 0){
@@ -58,7 +58,7 @@ public class ProjectService{
                    histories = new ArrayList<HistoryVO>();
                    for(int j = 0;j<allHistory.size();j++){
                        HistoryVO history = allHistory.get(j);
-                       if(history.getPid() == project.getId()){
+                       if(history.getPid().equals(project.getId())){
                            histories.add(history);
                        }
                    }
@@ -87,11 +87,11 @@ public class ProjectService{
                 List<Transaction> transactions = new ArrayList<Transaction>();
                 for(int i = 0;i < histories.size();i++){
                     HistoryVO history = histories.get(i);
-                    Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatStringtoDateTime(history.getCreateTime(),DateTimeUtil.FMT_yyyyMMdd));
+                    Transaction transaction = new Transaction(history.getOptionMoney(),DateTimeUtil.formatStringtoDateTime(history.getCreateTime(),DateTimeUtil.FMT_YYYYMMDD));
                     transactions.add(transaction);
                 }
                 //添加最后一笔明细
-                transactions.add(new Transaction(currentMoney,DateTimeUtil.formatDateTimetoString(new Date(),DateTimeUtil.FMT_yyyyMMdd)));
+                transactions.add(new Transaction(currentMoney,DateTimeUtil.formatDateTimetoString(new Date(),DateTimeUtil.FMT_YYYYMMDD)));
                 double xirr = new Xirr(transactions).xirr();
                 BigDecimal bg = new BigDecimal(xirr * 100).setScale(2, RoundingMode.UP);
                 yearRate = bg.doubleValue() + "%";

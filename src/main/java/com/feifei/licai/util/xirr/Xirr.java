@@ -8,14 +8,8 @@ import java.util.stream.Collectors;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
- * Calculates the irregular rate of return on a series of transactions.  The
- * irregular rate of return is the constant rate for which, if the transactions
- * had been applied to an investment with that rate, the same resulting returns
- * would be realized.
- * <p>
- * When creating the list of {@link Transaction} instances to feed Xirr, be
- * sure to include one transaction representing the present value of the account
- * now, as if you had cashed out the investment.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 public class Xirr {
 
@@ -45,7 +39,8 @@ public class Xirr {
      * @throws IllegalArgumentException if all the transactions non-negative (withdrawals)
      */
     public Xirr(Collection<Transaction> txs) {
-        if (txs.size() < 2) {
+        int size = 2;
+        if (txs.size() < size) {
             throw new IllegalArgumentException(
                 "Must have at least two transactions");
         }

@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 @RestController
 @RequestMapping("/total")

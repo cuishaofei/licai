@@ -19,9 +19,9 @@ import java.math.RoundingMode;
 import java.util.*;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
-
 @Service
 public class TotalService {
 
@@ -88,16 +88,16 @@ public class TotalService {
     public String getTotalYearRate() {
         String yearRate = "";
         List<HistoryVO> histories = historyMapper.getHistoryList();
-        List<ProjectVO> projects = projectMapper.getProjectList(Constants.orderCurrentMoney);
+        List<ProjectVO> projects = projectMapper.getProjectList(Constants.ORDER_CURRENT_MONEY);
         List<Transaction> transactions = new ArrayList<Transaction>();
         for (int i = 0; i < histories.size(); i++) {
             HistoryVO history = histories.get(i);
-            Transaction transaction = new Transaction(history.getOptionMoney(), DateTimeUtil.formatStringtoDateTime(history.getCreateTime(), DateTimeUtil.FMT_yyyyMMdd));
+            Transaction transaction = new Transaction(history.getOptionMoney(), DateTimeUtil.formatStringtoDateTime(history.getCreateTime(), DateTimeUtil.FMT_YYYYMMDD));
             transactions.add(transaction);
         }
         for (int i = 0; i < projects.size(); i++) {
             ProjectVO project = projects.get(i);
-            transactions.add(new Transaction(project.getCurrentMoney(), DateTimeUtil.formatDateTimetoString(new Date(), DateTimeUtil.FMT_yyyyMMdd)));
+            transactions.add(new Transaction(project.getCurrentMoney(), DateTimeUtil.formatDateTimetoString(new Date(), DateTimeUtil.FMT_YYYYMMDD)));
         }
         double xirr = new Xirr(transactions).xirr();
         BigDecimal bg = new BigDecimal(xirr * 100).setScale(2, RoundingMode.UP);
@@ -117,12 +117,12 @@ public class TotalService {
         List<Transaction> transactions = new ArrayList<Transaction>();
         for (int i = 0; i < histories.size(); i++) {
             HistoryVO history = histories.get(i);
-            Transaction transaction = new Transaction(history.getOptionMoney(), DateTimeUtil.formatStringtoDateTime(history.getCreateTime(), DateTimeUtil.FMT_yyyyMMdd));
+            Transaction transaction = new Transaction(history.getOptionMoney(), DateTimeUtil.formatStringtoDateTime(history.getCreateTime(), DateTimeUtil.FMT_YYYYMMDD));
             transactions.add(transaction);
         }
         for (int i = 0; i < projects.size(); i++) {
             ProjectVO project = projects.get(i);
-            transactions.add(new Transaction(project.getCurrentMoney(), DateTimeUtil.formatDateTimetoString(new Date(), DateTimeUtil.FMT_yyyyMMdd)));
+            transactions.add(new Transaction(project.getCurrentMoney(), DateTimeUtil.formatDateTimetoString(new Date(), DateTimeUtil.FMT_YYYYMMDD)));
         }
         double xirr = new Xirr(transactions).xirr();
         BigDecimal bg = new BigDecimal(xirr * 100).setScale(2, RoundingMode.UP);
@@ -143,12 +143,12 @@ public class TotalService {
             List<Transaction> transactions = new ArrayList<Transaction>();
             for (int i = 0; i < histories.size(); i++) {
                 HistoryVO history = histories.get(i);
-                Transaction transaction = new Transaction(history.getOptionMoney(), DateTimeUtil.formatStringtoDateTime(history.getCreateTime(), DateTimeUtil.FMT_yyyyMMdd));
+                Transaction transaction = new Transaction(history.getOptionMoney(), DateTimeUtil.formatStringtoDateTime(history.getCreateTime(), DateTimeUtil.FMT_YYYYMMDD));
                 transactions.add(transaction);
             }
             for (int i = 0; i < projects.size(); i++) {
                 ProjectVO project = projects.get(i);
-                transactions.add(new Transaction(project.getCurrentMoney(), DateTimeUtil.formatDateTimetoString(new Date(), DateTimeUtil.FMT_yyyyMMdd)));
+                transactions.add(new Transaction(project.getCurrentMoney(), DateTimeUtil.formatDateTimetoString(new Date(), DateTimeUtil.FMT_YYYYMMDD)));
             }
             double xirr = new Xirr(transactions).xirr();
             BigDecimal bg = new BigDecimal(xirr * 100).setScale(2, RoundingMode.UP);
@@ -208,31 +208,31 @@ public class TotalService {
     public List<Map<String,Object>>  getStrategy() {
         List<Map<String,Object>> list = new ArrayList<>();
         //根据不同策略对应的项目ID查询年化收益率
-        Map<String,Object> map1 = new HashMap();
+        Map<String,Object> map1 = new HashMap(3);
         map1.put("name","银行螺丝钉");
         map1.put("value",getTotalYearRate(Arrays.asList(yhlsd.split(","))));
         map1.put("remark","每周二定投");
-        Map<String,Object> map2 = new HashMap();
+        Map<String,Object> map2 = new HashMap(3);
         map2.put("name","U定投");
         map2.put("value",getTotalYearRate(Arrays.asList(udt.split(","))));
         map2.put("remark","每周二定投");
-        Map<String,Object> map3 = new HashMap();
+        Map<String,Object> map3 = new HashMap(3);
         map3.put("name","飞哥自选");
         map3.put("value",getTotalYearRate(Arrays.asList(feifei.split(","))));
         map3.put("remark","每周二定投");
-        Map<String,Object> map4 = new HashMap();
+        Map<String,Object> map4 = new HashMap(3);
         map4.put("name","机器人");
         map4.put("value",getTotalYearRate(Arrays.asList(robot.split(","))));
         map4.put("remark","随时投（基金组合、被动指数、智能算法）");
-        Map<String,Object> map5 = new HashMap();
+        Map<String,Object> map5 = new HashMap(3);
         map5.put("name","牛基宝<成长型>");
         map5.put("value",getTotalYearRate(Arrays.asList(cow.split(","))));
         map5.put("remark","随时投（基金组合、主动管理、投研实力）");
-        Map<String,Object> map6 = new HashMap();
+        Map<String,Object> map6 = new HashMap(3);
         map6.put("name","E大");
         map6.put("value",getTotalYearRate(Arrays.asList(ed.split(","))));
         map6.put("remark","等待发车信息");
-        Map<String,Object> map7 = new HashMap();
+        Map<String,Object> map7 = new HashMap(3);
         map7.put("name","简七");
         map7.put("value",getTotalYearRate(Arrays.asList(jianqi.split(","))));
         map7.put("remark","每年动态平衡一次，下次平衡：2020/2/18");
@@ -252,7 +252,7 @@ public class TotalService {
      */
     public List<Contrast>  getYearProfitContrast() {
         List<Contrast> list = new ArrayList<Contrast>();
-        List<ProjectVO> projectList = projectMapper.getProjectList(Constants.orderAllProfit);
+        List<ProjectVO> projectList = projectMapper.getProjectList(Constants.ORDER_ALL_PROFIT);
         for(ProjectVO project : projectList){
             Contrast contrast = new Contrast(project.getName(),project.getYearProfit());
             list.add(contrast);
@@ -266,7 +266,7 @@ public class TotalService {
      */
     public List<Contrast>  getTotalProfitContrast() {
         List<Contrast> list = new ArrayList<Contrast>();
-        List<ProjectVO> projectList = projectMapper.getProjectList(Constants.orderAllProfit);
+        List<ProjectVO> projectList = projectMapper.getProjectList(Constants.ORDER_ALL_PROFIT);
         for(ProjectVO project : projectList){
             Contrast contrast = new Contrast(project.getName(),project.getAllProfit());
             list.add(contrast);

@@ -8,21 +8,32 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class History {
-    //id
+    /**
+     * id
+     */
     private int id;
-    //1:投资,2:提现
+    /**
+     * 1:投资,2:提现
+     */
     private int option;
-    //操作金额,投资用负数,提现用正数
+    /**
+     * 操作金额,投资用负数,提现用正数
+     */
     private double optionMoney;
-    //操作时间
+    /**
+     * 操作时间
+     */
     private Date createTime;
-    //pid
+    /**
+     * pid
+     */
     private int pid;
 
 }

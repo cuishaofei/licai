@@ -1,11 +1,18 @@
 package com.feifei.licai.util;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 public enum OptionType {
-
-    INPUT(1, "投资"),OUTPUT(2, "提现");
+    /**
+     * 投资
+     */
+    INPUT(1, "投资"),
+    /**
+     * 提现
+     */
+    OUTPUT(2, "提现");
 
     public Integer code;
     public String desc;

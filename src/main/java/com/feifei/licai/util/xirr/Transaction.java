@@ -5,14 +5,8 @@ import java.time.ZoneId;
 import java.util.Date;
 
 /**
- * Represents a transaction for the purposes of computing the irregular rate
- * of return.
- * <p>
- * Note that negative amounts represent deposits into the investment (and so
- * withdrawals from your cash).  Positive amounts represent withdrawals from the
- * investment (deposits into cash).  Zero amounts are allowed in case your
- * investment is now worthless.
- * @see Xirr
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 public class Transaction {
 

@@ -12,6 +12,10 @@ import static com.feifei.licai.util.xirr.NewtonRaphson.TOLERANCE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+/**
+ * @author cuishaofei
+ * @date 2019/4/23
+ */
 public class XirrTest {
 
     @Test

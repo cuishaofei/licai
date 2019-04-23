@@ -1,11 +1,23 @@
 package com.feifei.licai.util;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 public enum RiskType {
 
-    HIGH(1, "高"),MIDDLE(2, "中"),LOW(3, "低");
+    /**
+     * 高
+     */
+    HIGH(1, "高"),
+    /**
+     * 中
+     */
+    MIDDLE(2, "中"),
+    /**
+     * 低
+     */
+    LOW(3, "低");
 
     public Integer code;
     public String desc;

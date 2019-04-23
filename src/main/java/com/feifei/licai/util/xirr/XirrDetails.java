@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.util.stream.Collector;
 
 /**
- * Converts a stream of {@link Transaction} instances into the data needed for
- * the {@link Xirr} algorithm.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 class XirrDetails {
     public static Collector<Transaction, XirrDetails, XirrDetails> collector() {

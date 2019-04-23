@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+/**
+ * @author cuishaofei
+ * @date 2019/4/23
+ */
 @Controller
 @RequestMapping("/user")
 public class UserController {

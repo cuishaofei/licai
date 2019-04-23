@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
-
 @Service
 public class HistoryService {
 
@@ -59,7 +59,7 @@ public class HistoryService {
      * @param params
      * @return
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public boolean addHistory(Map<String, Object> params){
         boolean flag = false;
         int id = Integer.valueOf((String)params.get("id"));

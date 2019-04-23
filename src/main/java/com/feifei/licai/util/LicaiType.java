@@ -1,11 +1,35 @@
 package com.feifei.licai.util;
 
 /**
- * Created by cuishaofei on 2019/3/16.
+ * @author cuishaofei
+ * @date 2019/4/23
  */
 public enum LicaiType {
 
-    GUPIAO(1, "股票型"),P2P(2, "P2P"),ZHAIQUAN(3, "债券型"),HUOBI(4, "货币型"),DINGQI(5, "定期理财"),YANGLAO(6, "养老基金");
+    /**
+     * 股票型
+     */
+    GUPIAO(1, "股票型"),
+    /**
+     * P2P
+     */
+    P2P(2, "P2P"),
+    /**
+     * 债券型
+     */
+    ZHAIQUAN(3, "债券型"),
+    /**
+     * 货币型
+     */
+    HUOBI(4, "货币型"),
+    /**
+     * 定期理财
+     */
+    DINGQI(5, "定期理财"),
+    /**
+     * 养老基金
+     */
+    YANGLAO(6, "养老基金");
 
     public Integer code;
     public String desc;
