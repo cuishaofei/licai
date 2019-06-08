@@ -235,7 +235,7 @@ public class TotalService {
         Map<String,Object> map7 = new HashMap(3);
         map7.put("name","简七");
         map7.put("value",getTotalYearRate(Arrays.asList(jianqi.split(","))));
-        map7.put("remark","每年动态平衡一次，下次平衡：2020/2/18");
+        map7.put("remark","随时投（基金组合、被动指数、动态平衡）");
         list.add(map1);
         list.add(map2);
         list.add(map3);
