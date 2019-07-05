@@ -250,6 +250,7 @@ public class TotalService {
         list.add(map5);
         list.add(map6);
         list.add(map7);
+        list.add(map8);
         return  list;
     }
 
