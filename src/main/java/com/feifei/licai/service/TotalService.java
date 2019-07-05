@@ -50,6 +50,8 @@ public class TotalService {
     private String robot;
     @Value("${choose.cow}")
     private String cow;
+    @Value("${choose.ql}")
+    private String ql;
 
 
     @Value("${per.zhishu}")
@@ -236,6 +238,10 @@ public class TotalService {
         map7.put("name","U定投");
         map7.put("value",getTotalYearRate(Arrays.asList(udt.split(","))));
         map7.put("remark","每周二定投");
+        Map<String,Object> map8 = new HashMap(3);
+        map8.put("name","潜龙计划");
+        map8.put("value",getTotalYearRate(Arrays.asList(ql.split(","))));
+        map8.put("remark","每周二定投");
 
         list.add(map1);
         list.add(map2);
