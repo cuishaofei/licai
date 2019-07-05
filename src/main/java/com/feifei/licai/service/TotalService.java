@@ -209,7 +209,7 @@ public class TotalService {
      */
     public List<Map<String,Object>>  getStrategy() {
         List<Map<String,Object>> list = new ArrayList<>();
-        //根据不同策略对应的项目ID查询年化收益率
+        // 根据不同策略对应的项目ID查询年化收益率
         Map<String,Object> map1 = new HashMap(3);
         map1.put("name","银行螺丝钉");
         map1.put("value",getTotalYearRate(Arrays.asList(yhlsd.split(","))));
