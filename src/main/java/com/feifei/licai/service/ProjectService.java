@@ -93,7 +93,7 @@ public class ProjectService{
                 //添加最后一笔明细
                 transactions.add(new Transaction(currentMoney,DateTimeUtil.formatDateTimetoString(new Date(),DateTimeUtil.FMT_YYYYMMDD)));
                 double xirr = new Xirr(transactions).xirr();
-                BigDecimal bg = new BigDecimal(xirr * 100).setScale(2, RoundingMode.UP);
+                BigDecimal bg = new BigDecimal(xirr).multiply(new BigDecimal(String.valueOf(100))).setScale(2, RoundingMode.UP);
                 yearRate = bg.doubleValue() + "%";
             }
         }catch (Exception e){
