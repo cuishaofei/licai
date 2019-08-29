@@ -264,7 +264,17 @@ function initContrastByCharts(url,text,elementID) {
                     }
                 ]
             };
+
             myChart.setOption(option, true);
+
+            // 设置容器的高度
+            this.autoHeight = lable.length * 25 + 50;
+            myChart.getDom().style.height = this.autoHeight + "px";
+            myChart.getDom().childNodes[0].style.height = this.autoHeight + "px";
+            myChart.getDom().childNodes[0].childNodes[0].setAttribute("height",this.autoHeight);
+            myChart.getDom().childNodes[0].childNodes[0].style.height = this.autoHeight + "px";
+            myChart.resize();
+
         }
     });
 }
