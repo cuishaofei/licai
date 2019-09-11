@@ -85,6 +85,7 @@ public class DateTimeUtil {
              reStr = sdf.parse(date);
         }catch (Exception e){
             logger.error("发生异常", e);
+            throw new RuntimeException();
         }
         return reStr;
     }
