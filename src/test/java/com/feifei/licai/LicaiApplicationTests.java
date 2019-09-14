@@ -2,6 +2,7 @@ package com.feifei.licai;
 
 import com.feifei.licai.mapper.HistoryMapper;
 import com.feifei.licai.mapper.ProjectMapper;
+import com.feifei.licai.mapper.TotalMapper;
 import com.feifei.licai.service.ProjectService;
 import com.feifei.licai.util.Constants;
 import org.apache.commons.logging.Log;
@@ -16,6 +17,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author cuishaofei
@@ -34,6 +39,8 @@ public class LicaiApplicationTests {
 	@Autowired
 	private HistoryMapper historyMapper;
 	@Autowired
+	private TotalMapper totalMapper;
+	@Autowired
 	private WebApplicationContext webApplicationContext;
 
 	private MockMvc mockMvc;
@@ -46,6 +53,12 @@ public class LicaiApplicationTests {
 	public void contextLoads() {
 //		projectMapper.getProjectList(Constants.orderCurrentMoney);
 //		projectMapper.getProjectList(Constants.orderAllProfit);
+
+		Map<String,Integer> map = new HashMap<>();
+		map.put("year1",2019);
+		map.put("year2",2018);
+		List<Map<String,Object>> list =  totalMapper.getJournalBetweenYear(map);
+		System.out.println(list);
 	}
 
 }

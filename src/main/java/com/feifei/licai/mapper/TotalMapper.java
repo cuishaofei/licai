@@ -4,6 +4,7 @@ import com.feifei.licai.vo.TotalVO;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author cuishaofei
@@ -146,4 +147,60 @@ public interface TotalMapper {
             "    t6.yearStr DESC")
     List<TotalVO>  getYearProfit();
 
+    /**
+     * 获取年区间的流水记录
+     * @param map
+     * @return
+     */
+    @Select(
+            "SELECT " +
+                    "	- t2.currentMoney optionMoney, " +
+                    "	date_format(t2.lastUpdateTime,'%Y-%m-%d') createTime " +
+                    "FROM " +
+                    "	( " +
+                    "		SELECT " +
+                    "			t1.currentMoney, " +
+                    "			t1.pid, " +
+                    "			t1.lastUpdateTime " +
+                    "		FROM " +
+                    "			lc_project_currentmoney t1 " +
+                    "		WHERE " +
+                    "			DATE_FORMAT(t1.lastUpdateTime, '%Y') = #{year2} " +
+                    "		ORDER BY " +
+                    "			t1.lastUpdateTime DESC " +
+                    "	) t2 " +
+                    "GROUP BY " +
+                    "	t2.pid " +
+                    "UNION ALL " +
+                    "	SELECT " +
+                    "		t1.optionMoney optionMoney, " +
+                    "		date_format(t1.createTime,'%Y-%m-%d') createTime " +
+                    "	FROM " +
+                    "		lc_history t1 " +
+                    "	WHERE " +
+                    "		DATE_FORMAT(t1.createTime, '%Y') = #{year1} " +
+                    "	UNION ALL " +
+                    "SELECT " +
+                    "	t2.currentMoney, " +
+                    "	date_format( " +
+                    "		NOW(), " +
+                    "		'%Y-%m-%d' " +
+                    "	) createTime " +
+                    "FROM " +
+                    "	( " +
+                    "		SELECT " +
+                    "			t1.currentMoney, " +
+                    "			t1.pid, " +
+                    "			t1.lastUpdateTime " +
+                    "		FROM " +
+                    "			lc_project_currentmoney t1 " +
+                    "		WHERE " +
+                    "			DATE_FORMAT(t1.lastUpdateTime, '%Y') =  #{year1} " +
+                    "		ORDER BY " +
+                    "			t1.lastUpdateTime DESC " +
+                    "	) t2 " +
+                    "GROUP BY " +
+                    "	t2.pid "
+    )
+    List<Map<String,Object>> getJournalBetweenYear(Map<String,Integer> map);
 }

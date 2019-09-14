@@ -295,6 +295,23 @@ public class TotalService {
      * @return
      */
     public List<TotalVO>  getYearProfit() {
-        return totalMapper.getYearProfit();
+        List<TotalVO> list = totalMapper.getYearProfit();
+        for(TotalVO totalVO:list){
+            List<Transaction> transactions = new ArrayList<Transaction>();
+            int year = Integer.parseInt(totalVO.getYearStr());
+            int lastYear = Integer.parseInt(totalVO.getYearStr()) - 1;
+            Map<String,Integer> map = new HashMap<>();
+            map.put("year1",year);
+            map.put("year2",lastYear);
+            List<Map<String,Object>> journalList =  totalMapper.getJournalBetweenYear(map);
+            for(Map<String,Object> journalMap : journalList){
+                transactions.add(new Transaction((Double) journalMap.get("optionMoney"), (String)journalMap.get("createTime")));
+            }
+            double xirr = new Xirr(transactions).xirr();
+            BigDecimal bg = new BigDecimal(xirr).multiply(new BigDecimal(String.valueOf(100))).setScale(2, RoundingMode.UP);
+            String totalYearRate = bg.doubleValue() + "%";
+            totalVO.setTotalYearRate(totalYearRate);
+        }
+        return list;
     }
 }
