@@ -102,12 +102,4 @@ public class ProjectService{
         return  yearRate;
     }
 
-    /**
-     * 获取该分类的总额
-     * @param type
-     * @return
-     */
-    public double getCurrentMoneyByType(int type) {
-        return  projectMapper.getCurrentMoneyByType(type);
-    }
 }

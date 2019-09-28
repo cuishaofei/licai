@@ -1,6 +1,7 @@
 package com.feifei.licai.mapper;
 
 import com.feifei.licai.vo.TotalVO;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -35,6 +36,42 @@ public interface TotalMapper {
             "            t1.pid " +
             "    ) t2")
     double getTotalCurrentMoney();
+
+    /**
+     * 根据类别获取当前金额累计
+     * @return
+     */
+    @Select({
+            "<script>",
+            "SELECT ",
+            "	SUM(t2.currentMoney) currentMoney ",
+            "FROM ",
+            "	lc_project t3, ",
+            "	( ",
+            "		SELECT ",
+            "			t1.currentMoney, ",
+            "			t1.pid ",
+            "		FROM ",
+            "			( ",
+            "				SELECT ",
+            "					* ",
+            "				FROM ",
+            "					lc_project_currentmoney ",
+            "				ORDER BY ",
+            "					lastUpdateTime DESC ",
+            "			) t1 ",
+            "		GROUP BY ",
+            "			t1.pid ",
+            "	) t2 ",
+            "WHERE ",
+            "	t3.id = t2.pid ",
+            "AND t3.type IN ",
+            "<foreach collection='types' item='id' open='(' separator=',' close=')'>",
+            "#{id}",
+            "</foreach>",
+            "</script>"
+    })
+    double getTotalCurrentMoneyByTypes(@Param("types") List<Integer> types);
 
     /**
      * 当前累计收益

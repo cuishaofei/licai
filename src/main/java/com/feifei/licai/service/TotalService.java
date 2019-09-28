@@ -5,6 +5,7 @@ import com.feifei.licai.mapper.ProjectMapper;
 import com.feifei.licai.mapper.TotalMapper;
 import com.feifei.licai.util.Constants;
 import com.feifei.licai.util.DateTimeUtil;
+import com.feifei.licai.util.LicaiType;
 import com.feifei.licai.util.xirr.Transaction;
 import com.feifei.licai.util.xirr.Xirr;
 import com.feifei.licai.vo.*;
@@ -170,7 +171,12 @@ public class TotalService {
     public List<ProportionVO> getProportion(){
         List<ProportionVO> list = new ArrayList<ProportionVO>();
         //总额
-        double totalCurrentMoney = getTotalCurrentMoney();
+        List<Integer> types = new ArrayList<>();
+        types.add(LicaiType.GUPIAO.getCode());
+        types.add(LicaiType.P2P.getCode());
+        types.add(LicaiType.ZHAIQUAN.getCode());
+        types.add(LicaiType.HUOBI.getCode());
+        double totalCurrentMoney = totalMapper.getTotalCurrentMoneyByTypes(types);
 
         // 应投金额
         BigDecimal zhishuShouldBD = new BigDecimal(String.valueOf(totalCurrentMoney)).multiply(new BigDecimal(String.valueOf(zhishu)));
@@ -179,10 +185,18 @@ public class TotalService {
         BigDecimal huobiShouldBD = new BigDecimal(String.valueOf(totalCurrentMoney)).multiply(new BigDecimal(String.valueOf(huobi)));
 
         //实投金额
-        double zhishuReal = projectMapper.getCurrentMoneyByType(1);
-        double p2pReal = projectMapper.getCurrentMoneyByType(2);
-        double zhaiquanReal = projectMapper.getCurrentMoneyByType(3);
-        double huobiReal = projectMapper.getCurrentMoneyByType(4);
+        List<Integer> zhishuRealTypes = new ArrayList<>();
+        zhishuRealTypes.add(LicaiType.GUPIAO.getCode());
+        double zhishuReal = totalMapper.getTotalCurrentMoneyByTypes(zhishuRealTypes);
+        List<Integer> p2pRealTypes = new ArrayList<>();
+        p2pRealTypes.add(LicaiType.P2P.getCode());
+        double p2pReal = totalMapper.getTotalCurrentMoneyByTypes(p2pRealTypes);
+        List<Integer> zhaiquanRealTypes = new ArrayList<>();
+        zhaiquanRealTypes.add(LicaiType.ZHAIQUAN.getCode());
+        double zhaiquanReal = totalMapper.getTotalCurrentMoneyByTypes(zhaiquanRealTypes);
+        List<Integer> huobiRealRealTypes = new ArrayList<>();
+        huobiRealRealTypes.add(LicaiType.HUOBI.getCode());
+        double huobiReal = totalMapper.getTotalCurrentMoneyByTypes(huobiRealRealTypes);
 
         // 实投金额BigDecimal类型
         BigDecimal zhishuRealBD = new BigDecimal(String.valueOf(zhishuReal));

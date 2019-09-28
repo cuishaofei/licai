@@ -105,35 +105,6 @@ public interface  ProjectMapper {
     List<ProjectVO> getProjectList(int orderType);
 
     /**
-     * 根据类型获取当前的金额
-     * @param type
-     * @return
-     */
-    @Select("SELECT " +
-            "    SUM(t3.currentMoney) " +
-            "FROM " +
-            "    lc_project t2, " +
-            "    ( " +
-            "        SELECT " +
-            "            t1.* " +
-            "        FROM " +
-            "            ( " +
-            "                SELECT " +
-            "                    * " +
-            "                FROM " +
-            "                    lc_project_currentmoney " +
-            "                ORDER BY " +
-            "                    lastUpdateTime DESC " +
-            "            ) t1 " +
-            "        GROUP BY " +
-            "            t1.pid " +
-            "    ) t3 " +
-            "WHERE " +
-            "    t2.id = t3.pid " +
-            "AND t2.type = #{type}")
-    double getCurrentMoneyByType(int type);
-
-    /**
      * 获取全部项目列表（包含每个项目的累计收益）
      * @param type
      * @return
