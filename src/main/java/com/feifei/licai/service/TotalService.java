@@ -47,8 +47,8 @@ public class TotalService {
     private String ed;
     @Value("${choose.udt}")
     private String udt;
-    @Value("${choose.robot}")
-    private String robot;
+    @Value("${choose.qqyj}")
+    private String qqyj;
     @Value("${choose.cow}")
     private String cow;
     @Value("${choose.ql}")
@@ -233,37 +233,37 @@ public class TotalService {
         List<Map<String,Object>> list = new ArrayList<>();
         // 根据不同策略对应的项目ID查询年化收益率
         Map<String,Object> map1 = new HashMap(3);
-        map1.put("name","银行螺丝钉");
-        map1.put("value",getTotalYearRate(Arrays.asList(yhlsd.split(","))));
+        map1.put("name","潜龙计划");
+        map1.put("value",getTotalYearRate(Arrays.asList(ql.split(","))));
         map1.put("remark","每周二定投");
         Map<String,Object> map2 = new HashMap(3);
-        map2.put("name","飞哥自选");
-        map2.put("value",getTotalYearRate(Arrays.asList(feifei.split(","))));
+        map2.put("name","牛基宝<成长型>");
+        map2.put("value",getTotalYearRate(Arrays.asList(cow.split(","))));
         map2.put("remark","每周二定投");
         Map<String,Object> map3 = new HashMap(3);
-        map3.put("name","机器人");
-        map3.put("value",getTotalYearRate(Arrays.asList(robot.split(","))));
+        map3.put("name","全球赢+<18号>");
+        map3.put("value",getTotalYearRate(Arrays.asList(qqyj.split(","))));
         map3.put("remark","随时投（基金组合、被动指数、智能算法）");
         Map<String,Object> map4 = new HashMap(3);
-        map4.put("name","牛基宝<成长型>");
-        map4.put("value",getTotalYearRate(Arrays.asList(cow.split(","))));
-        map4.put("remark","随时投（基金组合、主动管理、投研实力）");
+        map4.put("name","极简投资组合");
+        map4.put("value",getTotalYearRate(Arrays.asList(jianqi.split(","))));
+        map4.put("remark","随时投（基金组合、被动指数、动态平衡）");
         Map<String,Object> map5 = new HashMap(3);
-        map5.put("name","极简投资组合");
-        map5.put("value",getTotalYearRate(Arrays.asList(jianqi.split(","))));
-        map5.put("remark","随时投（基金组合、被动指数、动态平衡）");
+        map5.put("name","银行螺丝钉");
+        map5.put("value",getTotalYearRate(Arrays.asList(yhlsd.split(","))));
+        map5.put("remark","每周二定投");
         Map<String,Object> map6 = new HashMap(3);
-        map6.put("name","长赢指数投资机会");
-        map6.put("value",getTotalYearRate(Arrays.asList(ed.split(","))));
-        map6.put("remark","等待发车信息");
+        map6.put("name","飞哥自选");
+        map6.put("value",getTotalYearRate(Arrays.asList(feifei.split(","))));
+        map6.put("remark","每周二定投");
         Map<String,Object> map7 = new HashMap(3);
         map7.put("name","U定投");
         map7.put("value",getTotalYearRate(Arrays.asList(udt.split(","))));
-        map7.put("remark","每周二定投");
+        map7.put("remark","废弃");
         Map<String,Object> map8 = new HashMap(3);
-        map8.put("name","潜龙计划");
-        map8.put("value",getTotalYearRate(Arrays.asList(ql.split(","))));
-        map8.put("remark","每周二定投");
+        map8.put("name","长赢指数投资机会");
+        map8.put("value",getTotalYearRate(Arrays.asList(ed.split(","))));
+        map8.put("remark","废弃");
 
         list.add(map1);
         list.add(map2);
