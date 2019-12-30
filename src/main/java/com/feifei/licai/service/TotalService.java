@@ -43,17 +43,14 @@ public class TotalService {
     private String yhlsd;
     @Value("${choose.feifei}")
     private String feifei;
-    @Value("${choose.ed}")
-    private String ed;
-    @Value("${choose.udt}")
-    private String udt;
     @Value("${choose.qqyj}")
     private String qqyj;
     @Value("${choose.cow}")
     private String cow;
     @Value("${choose.ql}")
     private String ql;
-
+    @Value("${choose.hdt}")
+    private String hdt;
 
     @Value("${per.zhishu}")
     private double zhishu;
@@ -63,6 +60,7 @@ public class TotalService {
     private double zhaiquan;
     @Value("${per.huobi}")
     private double huobi;
+
 
 
     /**
@@ -241,21 +239,25 @@ public class TotalService {
         map2.put("value",getTotalYearRate(Arrays.asList(yhlsd.split(","))));
         map2.put("remark","每周二定投");
         Map<String,Object> map3 = new HashMap(3);
-        map3.put("name","牛基宝<成长型>");
-        map3.put("value",getTotalYearRate(Arrays.asList(cow.split(","))));
-        map3.put("remark","单笔买入");
+        map3.put("name","慧定投账户");
+        map3.put("value",getTotalYearRate(Arrays.asList(hdt.split(","))));
+        map3.put("remark","每周二定投");
         Map<String,Object> map4 = new HashMap(3);
-        map4.put("name","全球赢+<18号>");
-        map4.put("value",getTotalYearRate(Arrays.asList(qqyj.split(","))));
+        map4.put("name","牛基宝<成长型>");
+        map4.put("value",getTotalYearRate(Arrays.asList(cow.split(","))));
         map4.put("remark","单笔买入");
         Map<String,Object> map5 = new HashMap(3);
-        map5.put("name","极简投资组合");
-        map5.put("value",getTotalYearRate(Arrays.asList(jianqi.split(","))));
+        map5.put("name","全球赢+<18号>");
+        map5.put("value",getTotalYearRate(Arrays.asList(qqyj.split(","))));
         map5.put("remark","单笔买入");
         Map<String,Object> map6 = new HashMap(3);
-        map6.put("name","智慧定投");
-        map6.put("value",getTotalYearRate(Arrays.asList(feifei.split(","))));
-        map6.put("remark","尽量不操作");
+        map6.put("name","极简投资组合");
+        map6.put("value",getTotalYearRate(Arrays.asList(jianqi.split(","))));
+        map6.put("remark","单笔买入");
+        Map<String,Object> map7 = new HashMap(3);
+        map7.put("name","实盘秀");
+        map7.put("value",getTotalYearRate(Arrays.asList(feifei.split(","))));
+        map7.put("remark","尽量不操作");
 
         list.add(map1);
         list.add(map2);
@@ -263,6 +265,7 @@ public class TotalService {
         list.add(map4);
         list.add(map5);
         list.add(map6);
+        list.add(map7);
         return  list;
     }
 
