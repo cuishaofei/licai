@@ -101,7 +101,11 @@ public interface  ProjectMapper {
             " </if > "+
             " <if  test='_parameter==2'>" +
             "   ORDER BY t8.allProfit DESC" +
-            " </if ></script>")
+            " </if >" +
+            " <if  test='_parameter==3'>" +
+            "   ORDER BY yearProfit DESC" +
+            " </if >" +
+            "</script>")
     List<ProjectVO> getProjectList(int orderType);
 
     /**

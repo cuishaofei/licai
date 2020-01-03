@@ -13,5 +13,9 @@ public class Constants {
      * 根据累计收益排序
      */
     public static final int ORDER_ALL_PROFIT = 2;
+    /**
+     * 根据当年收益排序
+     */
+    public static final int ORDER_ALL_YEARPROFIT = 3;
 
 }

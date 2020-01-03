@@ -275,7 +275,7 @@ public class TotalService {
      */
     public List<Contrast>  getYearProfitContrast() {
         List<Contrast> list = new ArrayList<Contrast>();
-        List<ProjectVO> projectList = projectMapper.getProjectList(Constants.ORDER_ALL_PROFIT);
+        List<ProjectVO> projectList = projectMapper.getProjectList(Constants.ORDER_ALL_YEARPROFIT);
         for(ProjectVO project : projectList){
             Contrast contrast = new Contrast(project.getName(),project.getYearProfit());
             list.add(contrast);
