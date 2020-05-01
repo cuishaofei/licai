@@ -37,20 +37,18 @@ public class TotalService {
     @Autowired
     private HistoryMapper historyMapper;
 
-    @Value("${choose.jianqi}")
-    private String jianqi;
-    @Value("${choose.yhlsd}")
-    private String yhlsd;
-    @Value("${choose.feifei}")
-    private String feifei;
-    @Value("${choose.qqyj}")
-    private String qqyj;
-    @Value("${choose.cow}")
-    private String cow;
-    @Value("${choose.ql}")
-    private String ql;
-    @Value("${choose.hdt}")
-    private String hdt;
+    @Value("${strategy01}")
+    private String strategy01;
+    @Value("${strategy02}")
+    private String strategy02;
+    @Value("${strategy03}")
+    private String strategy03;
+    @Value("${strategy04}")
+    private String strategy04;
+    @Value("${strategy05}")
+    private String strategy05;
+    @Value("${strategy06}")
+    private String strategy06;
 
     @Value("${per.zhishu}")
     private double zhishu;
@@ -230,43 +228,43 @@ public class TotalService {
     public List<Map<String,Object>>  getStrategy() {
         List<Map<String,Object>> list = new ArrayList<>();
         // 根据不同策略对应的项目ID查询年化收益率
-        Map<String,Object> map1 = new HashMap(3);
-        map1.put("name","潜龙计划");
-        map1.put("value",getTotalYearRate(Arrays.asList(ql.split(","))));
-        map1.put("remark","每周二定投");
-        Map<String,Object> map2 = new HashMap(3);
-        map2.put("name","银行螺丝钉");
-        map2.put("value",getTotalYearRate(Arrays.asList(yhlsd.split(","))));
-        map2.put("remark","每周二定投");
-        Map<String,Object> map3 = new HashMap(3);
-        map3.put("name","慧定投账户");
-        map3.put("value",getTotalYearRate(Arrays.asList(hdt.split(","))));
-        map3.put("remark","每周二定投");
-        Map<String,Object> map4 = new HashMap(3);
-        map4.put("name","牛基宝<成长型>");
-        map4.put("value",getTotalYearRate(Arrays.asList(cow.split(","))));
-        map4.put("remark","单笔买入");
-        Map<String,Object> map5 = new HashMap(3);
-        map5.put("name","全球赢+<18号>");
-        map5.put("value",getTotalYearRate(Arrays.asList(qqyj.split(","))));
-        map5.put("remark","单笔买入");
-        Map<String,Object> map6 = new HashMap(3);
-        map6.put("name","极简投资组合");
-        map6.put("value",getTotalYearRate(Arrays.asList(jianqi.split(","))));
-        map6.put("remark","单笔买入");
-        Map<String,Object> map7 = new HashMap(3);
-        map7.put("name","实盘秀");
-        map7.put("value",getTotalYearRate(Arrays.asList(feifei.split(","))));
-        map7.put("remark","尽量不操作");
+        Map<String,Object> strategy01Map = new HashMap(3);
+        strategy01Map.put("name","帮你投");
+        strategy01Map.put("value",getTotalYearRate(Arrays.asList(strategy01)));
+        strategy01Map.put("remark","每周一定投");
+        list.add(strategy01Map);
 
-        list.add(map1);
-        list.add(map2);
-        list.add(map3);
-        list.add(map4);
-        list.add(map5);
-        list.add(map6);
-        list.add(map7);
-        return  list;
+        Map<String,Object> strategy02Map = new HashMap(3);
+        strategy02Map.put("name","实盘秀");
+        strategy02Map.put("value",getTotalYearRate(Arrays.asList(strategy02)));
+        strategy02Map.put("remark","每周二定投");
+        list.add(strategy02Map);
+
+        Map<String,Object> strategy03Map = new HashMap(3);
+        strategy03Map.put("name","慧定投");
+        strategy03Map.put("value",getTotalYearRate(Arrays.asList(strategy03)));
+        strategy03Map.put("remark","每周二定投");
+        list.add(strategy03Map);
+
+        Map<String,Object> strategy04Map = new HashMap(3);
+        strategy04Map.put("name","潜龙计划");
+        strategy04Map.put("value",getTotalYearRate(Arrays.asList(strategy04)));
+        strategy04Map.put("remark","每周三定投");
+        list.add(strategy04Map);
+
+        Map<String,Object> strategy05Map = new HashMap(3);
+        strategy05Map.put("name","牛基宝<全股型>");
+        strategy05Map.put("value",getTotalYearRate(Arrays.asList(strategy05)));
+        strategy05Map.put("remark","每周四定投");
+        list.add(strategy05Map);
+
+        Map<String,Object> strategy06Map = new HashMap(3);
+        strategy06Map.put("name","全球赢+<18号>");
+        strategy06Map.put("value",getTotalYearRate(Arrays.asList(strategy06)));
+        strategy06Map.put("remark","每月单笔买入");
+        list.add(strategy06Map);
+
+        return list;
     }
 
     /**
