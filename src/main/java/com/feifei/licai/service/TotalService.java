@@ -237,31 +237,31 @@ public class TotalService {
         Map<String,Object> strategy02Map = new HashMap(3);
         strategy02Map.put("name","实盘秀");
         strategy02Map.put("value",getTotalYearRate(Arrays.asList(strategy02)));
-        strategy02Map.put("remark","每周二定投");
+        strategy02Map.put("remark","择时买入");
         list.add(strategy02Map);
 
         Map<String,Object> strategy03Map = new HashMap(3);
         strategy03Map.put("name","慧定投");
         strategy03Map.put("value",getTotalYearRate(Arrays.asList(strategy03)));
-        strategy03Map.put("remark","每周二定投");
+        strategy03Map.put("remark","每周一定投");
         list.add(strategy03Map);
 
         Map<String,Object> strategy04Map = new HashMap(3);
         strategy04Map.put("name","潜龙计划");
         strategy04Map.put("value",getTotalYearRate(Arrays.asList(strategy04)));
-        strategy04Map.put("remark","每周三定投");
+        strategy04Map.put("remark","每周一定投");
         list.add(strategy04Map);
 
         Map<String,Object> strategy05Map = new HashMap(3);
         strategy05Map.put("name","牛基宝<全股型>");
         strategy05Map.put("value",getTotalYearRate(Arrays.asList(strategy05)));
-        strategy05Map.put("remark","每周四定投");
+        strategy05Map.put("remark","每周一定投");
         list.add(strategy05Map);
 
         Map<String,Object> strategy06Map = new HashMap(3);
         strategy06Map.put("name","全球赢+<18号>");
         strategy06Map.put("value",getTotalYearRate(Arrays.asList(strategy06)));
-        strategy06Map.put("remark","每月单笔买入");
+        strategy06Map.put("remark","每月1号定投");
         list.add(strategy06Map);
 
         return list;
