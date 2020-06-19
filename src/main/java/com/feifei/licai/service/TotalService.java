@@ -52,8 +52,6 @@ public class TotalService {
 
     @Value("${per.zhishu}")
     private double zhishu;
-    @Value("${per.p2p}")
-    private double p2p;
     @Value("${per.zhaiquan}")
     private double zhaiquan;
     @Value("${per.huobi}")
@@ -169,14 +167,12 @@ public class TotalService {
         //总额
         List<Integer> types = new ArrayList<>();
         types.add(LicaiType.GUPIAO.getCode());
-        types.add(LicaiType.P2P.getCode());
         types.add(LicaiType.ZHAIQUAN.getCode());
         types.add(LicaiType.HUOBI.getCode());
         double totalCurrentMoney = totalMapper.getTotalCurrentMoneyByTypes(types);
 
         // 应投金额
         BigDecimal zhishuShouldBD = new BigDecimal(String.valueOf(totalCurrentMoney)).multiply(new BigDecimal(String.valueOf(zhishu)));
-        BigDecimal p2pShouldBD = new BigDecimal(String.valueOf(totalCurrentMoney)).multiply(new BigDecimal(String.valueOf(p2p)));
         BigDecimal zhaiquanShouldBD = new BigDecimal(String.valueOf(totalCurrentMoney)).multiply(new BigDecimal(String.valueOf(zhaiquan)));
         BigDecimal huobiShouldBD = new BigDecimal(String.valueOf(totalCurrentMoney)).multiply(new BigDecimal(String.valueOf(huobi)));
 
@@ -184,9 +180,6 @@ public class TotalService {
         List<Integer> zhishuRealTypes = new ArrayList<>();
         zhishuRealTypes.add(LicaiType.GUPIAO.getCode());
         double zhishuReal = totalMapper.getTotalCurrentMoneyByTypes(zhishuRealTypes);
-        List<Integer> p2pRealTypes = new ArrayList<>();
-        p2pRealTypes.add(LicaiType.P2P.getCode());
-        double p2pReal = totalMapper.getTotalCurrentMoneyByTypes(p2pRealTypes);
         List<Integer> zhaiquanRealTypes = new ArrayList<>();
         zhaiquanRealTypes.add(LicaiType.ZHAIQUAN.getCode());
         double zhaiquanReal = totalMapper.getTotalCurrentMoneyByTypes(zhaiquanRealTypes);
@@ -196,7 +189,6 @@ public class TotalService {
 
         // 实投金额BigDecimal类型
         BigDecimal zhishuRealBD = new BigDecimal(String.valueOf(zhishuReal));
-        BigDecimal p2pRealBD = new BigDecimal(String.valueOf(p2pReal));
         BigDecimal zhaiquanRealBD = new BigDecimal(String.valueOf(zhaiquanReal));
         BigDecimal huobiRealBD = new BigDecimal(String.valueOf(huobiReal));
         BigDecimal totalCurrentMoneyBD = new BigDecimal(String.valueOf(totalCurrentMoney));
@@ -204,17 +196,14 @@ public class TotalService {
 
         //实投金额占比
         String zhishuRealPer = zhishuRealBD.divide(totalCurrentMoneyBD,4,RoundingMode.HALF_UP).multiply(hundredBD).doubleValue()  + "%";
-        String p2pRealPer = p2pRealBD.divide(totalCurrentMoneyBD,4,RoundingMode.HALF_UP).multiply(hundredBD).doubleValue()  + "%";
         String zhaiquanRealPer = zhaiquanRealBD.divide(totalCurrentMoneyBD,4,RoundingMode.HALF_UP).multiply(hundredBD).doubleValue()  + "%";
         String huobiRealPer = huobiRealBD.divide(totalCurrentMoneyBD,4,RoundingMode.HALF_UP).multiply(hundredBD).doubleValue()  + "%";
 
         ProportionVO proportionVO1 = new ProportionVO("股票型",new BigDecimal(String.valueOf(zhishu)).multiply(hundredBD) + "%",zhishuRealPer,zhishuShouldBD.setScale(2, RoundingMode.UP).doubleValue(),zhishuRealBD.setScale(2, RoundingMode.UP).doubleValue(),zhishuShouldBD.subtract(zhishuRealBD).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(1));
-        ProportionVO proportionVO2 = new ProportionVO("P2P",new BigDecimal(String.valueOf(p2p)).multiply(hundredBD) + "%",p2pRealPer,p2pShouldBD.setScale(2, RoundingMode.UP).doubleValue(),p2pRealBD.setScale(2, RoundingMode.UP).doubleValue(),p2pShouldBD.subtract(p2pRealBD).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(2));
         ProportionVO proportionVO3 = new ProportionVO("债券型",new BigDecimal(String.valueOf(zhaiquan)).multiply(hundredBD) + "%",zhaiquanRealPer,zhaiquanShouldBD.setScale(2, RoundingMode.UP).doubleValue(),zhaiquanRealBD.setScale(2, RoundingMode.UP).doubleValue(),zhaiquanShouldBD.subtract(zhaiquanRealBD).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(3));
         ProportionVO proportionVO4 = new ProportionVO("货币型",new BigDecimal(String.valueOf(huobi)).multiply(hundredBD) + "%",huobiRealPer,huobiShouldBD.setScale(2, RoundingMode.UP).doubleValue(),huobiRealBD.setScale(2, RoundingMode.UP).doubleValue(),huobiShouldBD.subtract(huobiRealBD).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(4));
 
         list.add(proportionVO1);
-        list.add(proportionVO2);
         list.add(proportionVO3);
         list.add(proportionVO4);
 
