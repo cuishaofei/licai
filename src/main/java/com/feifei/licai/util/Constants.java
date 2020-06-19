@@ -17,5 +17,9 @@ public class Constants {
      * 根据当年收益排序
      */
     public static final int ORDER_ALL_YEARPROFIT = 3;
+    /**
+     * 根据APP名称
+     */
+    public static final int ORDER_APPNAME = 4;
 
 }

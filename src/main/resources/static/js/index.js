@@ -251,7 +251,10 @@ function initContrastByCharts(url,text,elementID) {
                 },
                 yAxis: {
                     type: 'category',
-                    data: lable
+                    data: lable,
+                    axisLabel: {
+                        interval:0
+                    }
                 },
                 grid: {
                     left:'20%'

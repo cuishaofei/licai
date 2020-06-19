@@ -95,7 +95,7 @@ public interface  ProjectMapper {
             "    ) t3 " +
             "WHERE " +
             "    t2.id = t3.pid " +
-            ") t8 " +
+            ") t8 WHERE t8.currentMoney != 0 " +
             " <if  test='_parameter==1'>" +
             "   ORDER BY t8.currentMoney DESC" +
             " </if > "+
@@ -104,6 +104,9 @@ public interface  ProjectMapper {
             " </if >" +
             " <if  test='_parameter==3'>" +
             "   ORDER BY yearProfit DESC" +
+            " </if >" +
+            " <if  test='_parameter==4'>" +
+            "   ORDER BY appname DESC" +
             " </if >" +
             "</script>")
     List<ProjectVO> getProjectList(int orderType);

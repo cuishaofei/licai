@@ -42,7 +42,7 @@ public class ProjectService{
      * @return
      */
     public List<ProjectVO> getProjectList() {
-        List<ProjectVO> list = projectMapper.getProjectList(Constants.ORDER_CURRENT_MONEY);
+        List<ProjectVO> list = projectMapper.getProjectList(Constants.ORDER_APPNAME);
         List<HistoryVO> allHistory = historyMapper.getHistoryList();
         List<ProjectVO> projectVOArrayList = new ArrayList<ProjectVO>();
         if(list != null && list.size() > 0){
