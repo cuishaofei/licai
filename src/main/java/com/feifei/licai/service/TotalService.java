@@ -224,7 +224,7 @@ public class TotalService {
         list.add(strategy01Map);
 
         Map<String,Object> strategy02Map = new HashMap(3);
-        strategy02Map.put("name","实盘秀");
+        strategy02Map.put("name","小鲨鱼");
         strategy02Map.put("value",getTotalYearRate(Arrays.asList(strategy02)));
         strategy02Map.put("remark","择时买入");
         list.add(strategy02Map);
