@@ -50,12 +50,10 @@ public class TotalService {
     @Value("${strategy06}")
     private String strategy06;
 
-    @Value("${per.zhishu}")
-    private double zhishu;
-    @Value("${per.zhaiquan}")
-    private double zhaiquan;
-    @Value("${per.huobi}")
-    private double huobi;
+    @Value("${per.qy}")
+    private double qy;
+    @Value("${per.wj}")
+    private double wj;
 
 
 
@@ -166,46 +164,37 @@ public class TotalService {
         List<ProportionVO> list = new ArrayList<ProportionVO>();
         //总额
         List<Integer> types = new ArrayList<>();
-        types.add(LicaiType.GUPIAO.getCode());
-        types.add(LicaiType.ZHAIQUAN.getCode());
-        types.add(LicaiType.HUOBI.getCode());
+        types.add(LicaiType.QY.getCode());
+        types.add(LicaiType.WJ.getCode());
         double totalCurrentMoney = totalMapper.getTotalCurrentMoneyByTypes(types);
 
         // 应投金额
-        BigDecimal zhishuShouldBD = new BigDecimal(String.valueOf(totalCurrentMoney)).multiply(new BigDecimal(String.valueOf(zhishu)));
-        BigDecimal zhaiquanShouldBD = new BigDecimal(String.valueOf(totalCurrentMoney)).multiply(new BigDecimal(String.valueOf(zhaiquan)));
-        BigDecimal huobiShouldBD = new BigDecimal(String.valueOf(totalCurrentMoney)).multiply(new BigDecimal(String.valueOf(huobi)));
+        BigDecimal qyShouldBD = new BigDecimal(String.valueOf(totalCurrentMoney)).multiply(new BigDecimal(String.valueOf(qy)));
+        BigDecimal wjShouldBD = new BigDecimal(String.valueOf(totalCurrentMoney)).multiply(new BigDecimal(String.valueOf(wj)));
 
         //实投金额
-        List<Integer> zhishuRealTypes = new ArrayList<>();
-        zhishuRealTypes.add(LicaiType.GUPIAO.getCode());
-        double zhishuReal = totalMapper.getTotalCurrentMoneyByTypes(zhishuRealTypes);
-        List<Integer> zhaiquanRealTypes = new ArrayList<>();
-        zhaiquanRealTypes.add(LicaiType.ZHAIQUAN.getCode());
-        double zhaiquanReal = totalMapper.getTotalCurrentMoneyByTypes(zhaiquanRealTypes);
-        List<Integer> huobiRealRealTypes = new ArrayList<>();
-        huobiRealRealTypes.add(LicaiType.HUOBI.getCode());
-        double huobiReal = totalMapper.getTotalCurrentMoneyByTypes(huobiRealRealTypes);
+        List<Integer> qyRealTypes = new ArrayList<>();
+        qyRealTypes.add(LicaiType.QY.getCode());
+        double qyReal = totalMapper.getTotalCurrentMoneyByTypes(qyRealTypes);
+        List<Integer> wjRealTypes = new ArrayList<>();
+        wjRealTypes.add(LicaiType.WJ.getCode());
+        double wjReal = totalMapper.getTotalCurrentMoneyByTypes(wjRealTypes);
 
         // 实投金额BigDecimal类型
-        BigDecimal zhishuRealBD = new BigDecimal(String.valueOf(zhishuReal));
-        BigDecimal zhaiquanRealBD = new BigDecimal(String.valueOf(zhaiquanReal));
-        BigDecimal huobiRealBD = new BigDecimal(String.valueOf(huobiReal));
+        BigDecimal qyRealBD = new BigDecimal(String.valueOf(qyReal));
+        BigDecimal wjRealBD = new BigDecimal(String.valueOf(wjReal));
         BigDecimal totalCurrentMoneyBD = new BigDecimal(String.valueOf(totalCurrentMoney));
         BigDecimal hundredBD = new BigDecimal(String.valueOf(100));
 
         //实投金额占比
-        String zhishuRealPer = zhishuRealBD.divide(totalCurrentMoneyBD,4,RoundingMode.HALF_UP).multiply(hundredBD).doubleValue()  + "%";
-        String zhaiquanRealPer = zhaiquanRealBD.divide(totalCurrentMoneyBD,4,RoundingMode.HALF_UP).multiply(hundredBD).doubleValue()  + "%";
-        String huobiRealPer = huobiRealBD.divide(totalCurrentMoneyBD,4,RoundingMode.HALF_UP).multiply(hundredBD).doubleValue()  + "%";
+        String qyRealPer = qyRealBD.divide(totalCurrentMoneyBD,4,RoundingMode.HALF_UP).multiply(hundredBD).doubleValue()  + "%";
+        String wjRealPer = wjRealBD.divide(totalCurrentMoneyBD,4,RoundingMode.HALF_UP).multiply(hundredBD).doubleValue()  + "%";
 
-        ProportionVO proportionVO1 = new ProportionVO("股票型",new BigDecimal(String.valueOf(zhishu)).multiply(hundredBD) + "%",zhishuRealPer,zhishuShouldBD.setScale(2, RoundingMode.UP).doubleValue(),zhishuRealBD.setScale(2, RoundingMode.UP).doubleValue(),zhishuShouldBD.subtract(zhishuRealBD).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(1));
-        ProportionVO proportionVO3 = new ProportionVO("债券型",new BigDecimal(String.valueOf(zhaiquan)).multiply(hundredBD) + "%",zhaiquanRealPer,zhaiquanShouldBD.setScale(2, RoundingMode.UP).doubleValue(),zhaiquanRealBD.setScale(2, RoundingMode.UP).doubleValue(),zhaiquanShouldBD.subtract(zhaiquanRealBD).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(3));
-        ProportionVO proportionVO4 = new ProportionVO("货币型",new BigDecimal(String.valueOf(huobi)).multiply(hundredBD) + "%",huobiRealPer,huobiShouldBD.setScale(2, RoundingMode.UP).doubleValue(),huobiRealBD.setScale(2, RoundingMode.UP).doubleValue(),huobiShouldBD.subtract(huobiRealBD).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(4));
+        ProportionVO proportionVO1 = new ProportionVO("权益型",new BigDecimal(String.valueOf(qy)).multiply(hundredBD) + "%",qyRealPer,qyShouldBD.setScale(2, RoundingMode.UP).doubleValue(),qyRealBD.setScale(2, RoundingMode.UP).doubleValue(),qyShouldBD.subtract(qyRealBD).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(1));
+        ProportionVO proportionVO3 = new ProportionVO("稳健型",new BigDecimal(String.valueOf(wj)).multiply(hundredBD) + "%",wjRealPer,wjShouldBD.setScale(2, RoundingMode.UP).doubleValue(),wjRealBD.setScale(2, RoundingMode.UP).doubleValue(),wjShouldBD.subtract(wjRealBD).setScale(2, RoundingMode.UP).doubleValue(),getTotalYearRate(2));
 
         list.add(proportionVO1);
         list.add(proportionVO3);
-        list.add(proportionVO4);
 
         return  list;
     }
@@ -218,39 +207,39 @@ public class TotalService {
         List<Map<String,Object>> list = new ArrayList<>();
         // 根据不同策略对应的项目ID查询年化收益率
         Map<String,Object> strategy01Map = new HashMap(3);
-        strategy01Map.put("name","帮你投");
+        strategy01Map.put("name","牛基宝<全股型>");
         strategy01Map.put("value",getTotalYearRate(Arrays.asList(strategy01)));
         strategy01Map.put("remark","每周一定投");
         list.add(strategy01Map);
 
         Map<String,Object> strategy02Map = new HashMap(3);
-        strategy02Map.put("name","小鲨鱼");
+        strategy02Map.put("name","潜龙计划");
         strategy02Map.put("value",getTotalYearRate(Arrays.asList(strategy02)));
-        strategy02Map.put("remark","择时买入");
+        strategy02Map.put("remark","每周一定投");
         list.add(strategy02Map);
 
         Map<String,Object> strategy03Map = new HashMap(3);
-        strategy03Map.put("name","慧定投");
+        strategy03Map.put("name","大白鲨");
         strategy03Map.put("value",getTotalYearRate(Arrays.asList(strategy03)));
-        strategy03Map.put("remark","每周一定投");
+        strategy03Map.put("remark","每日定投");
         list.add(strategy03Map);
 
         Map<String,Object> strategy04Map = new HashMap(3);
-        strategy04Map.put("name","潜龙计划");
+        strategy04Map.put("name","小鲨鱼");
         strategy04Map.put("value",getTotalYearRate(Arrays.asList(strategy04)));
-        strategy04Map.put("remark","每周一定投");
+        strategy04Map.put("remark","不再买入");
         list.add(strategy04Map);
 
         Map<String,Object> strategy05Map = new HashMap(3);
-        strategy05Map.put("name","牛基宝<全股型>");
+        strategy05Map.put("name","帮你投");
         strategy05Map.put("value",getTotalYearRate(Arrays.asList(strategy05)));
         strategy05Map.put("remark","每周一定投");
         list.add(strategy05Map);
 
         Map<String,Object> strategy06Map = new HashMap(3);
-        strategy06Map.put("name","全球赢+<18号>");
+        strategy06Map.put("name","慧定投");
         strategy06Map.put("value",getTotalYearRate(Arrays.asList(strategy06)));
-        strategy06Map.put("remark","每月1号定投");
+        strategy06Map.put("remark","每周一定投");
         list.add(strategy06Map);
 
         return list;

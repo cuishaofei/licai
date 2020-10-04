@@ -7,29 +7,17 @@ package com.feifei.licai.util;
 public enum LicaiType {
 
     /**
-     * 股票型
+     * 权益型
      */
-    GUPIAO(1, "股票型"),
+    QY(1, "权益型"),
     /**
-     * P2P
+     * 稳健型
      */
-    P2P(2, "P2P"),
+    WJ(2, "稳健型"),
     /**
-     * 债券型
+     * 其它
      */
-    ZHAIQUAN(3, "债券型"),
-    /**
-     * 货币型
-     */
-    HUOBI(4, "货币型"),
-    /**
-     * 定期理财
-     */
-    DINGQI(5, "定期理财"),
-    /**
-     * 养老基金
-     */
-    YANGLAO(6, "养老基金");
+    OTHER(3, "其它");
 
     public Integer code;
     public String desc;

@@ -4,6 +4,7 @@ import com.feifei.licai.service.ProjectService;
 import com.feifei.licai.service.TotalService;
 import com.feifei.licai.vo.Contrast;
 import com.feifei.licai.vo.DataGridResult;
+import com.feifei.licai.vo.ProportionVO;
 import com.feifei.licai.vo.TotalVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -29,9 +30,6 @@ public class TotalController {
     @Autowired
     private TotalService totalService;
 
-    @Autowired
-    private ProjectService projectService;
-
     @GetMapping
     @RequestMapping("/getTotal")
     public DataGridResult getTotal(){
@@ -45,7 +43,7 @@ public class TotalController {
             total.setTotalYearRate(totalService.getTotalYearRate());
             list.add(total);
 
-            result.setTotal(1);
+            result.setTotal(list.size());
             result.setRows(list);
             return result;
         } catch (Exception e) {
@@ -58,9 +56,10 @@ public class TotalController {
     @RequestMapping("/getProportion")
     public DataGridResult getProportion(){
         try {
+            List<ProportionVO> proportion = totalService.getProportion();
             DataGridResult result = new DataGridResult();
-            result.setTotal(3);
-            result.setRows(totalService.getProportion());
+            result.setTotal(proportion.size());
+            result.setRows(proportion);
             return result;
         } catch (Exception e) {
             logger.error("发生异常", e);
