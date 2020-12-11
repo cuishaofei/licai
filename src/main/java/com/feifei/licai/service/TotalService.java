@@ -45,10 +45,6 @@ public class TotalService {
     private String strategy03;
     @Value("${strategy04}")
     private String strategy04;
-    @Value("${strategy05}")
-    private String strategy05;
-    @Value("${strategy06}")
-    private String strategy06;
 
     @Value("${per.qy}")
     private double qy;
@@ -207,40 +203,28 @@ public class TotalService {
         List<Map<String,Object>> list = new ArrayList<>();
         // 根据不同策略对应的项目ID查询年化收益率
         Map<String,Object> strategy01Map = new HashMap(3);
-        strategy01Map.put("name","牛基宝<全股型>");
+        strategy01Map.put("name","支付宝");
         strategy01Map.put("value",getTotalYearRate(Arrays.asList(strategy01)));
-        strategy01Map.put("remark","每周一定投");
+        strategy01Map.put("remark","随时买入");
         list.add(strategy01Map);
 
         Map<String,Object> strategy02Map = new HashMap(3);
-        strategy02Map.put("name","潜龙计划");
+        strategy02Map.put("name","好买基金");
         strategy02Map.put("value",getTotalYearRate(Arrays.asList(strategy02)));
         strategy02Map.put("remark","每周一定投");
         list.add(strategy02Map);
 
         Map<String,Object> strategy03Map = new HashMap(3);
-        strategy03Map.put("name","大白鲨");
+        strategy03Map.put("name","微博基金");
         strategy03Map.put("value",getTotalYearRate(Arrays.asList(strategy03)));
         strategy03Map.put("remark","每日定投");
         list.add(strategy03Map);
 
         Map<String,Object> strategy04Map = new HashMap(3);
-        strategy04Map.put("name","小鲨鱼");
+        strategy04Map.put("name","天天基金");
         strategy04Map.put("value",getTotalYearRate(Arrays.asList(strategy04)));
-        strategy04Map.put("remark","不再买入");
+        strategy04Map.put("remark","每周一定投");
         list.add(strategy04Map);
-
-        Map<String,Object> strategy05Map = new HashMap(3);
-        strategy05Map.put("name","帮你投");
-        strategy05Map.put("value",getTotalYearRate(Arrays.asList(strategy05)));
-        strategy05Map.put("remark","每周一定投");
-        list.add(strategy05Map);
-
-        Map<String,Object> strategy06Map = new HashMap(3);
-        strategy06Map.put("name","慧定投");
-        strategy06Map.put("value",getTotalYearRate(Arrays.asList(strategy06)));
-        strategy06Map.put("remark","每周一定投");
-        list.add(strategy06Map);
 
         return list;
     }
